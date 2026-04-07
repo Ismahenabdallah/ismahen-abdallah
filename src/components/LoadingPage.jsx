@@ -43,7 +43,7 @@ const LoadingPage = () => {
       >
         <div className="w-full h-full rounded-[1.3rem] overflow-hidden bg-[#050505]">
           <img
-            src="/picture_cv.jpg"
+            src="./picture_cv.jpg"
             alt="IA"
             className="w-full h-full object-cover grayscale brightness-110" // Grayscale bech tji m3a el Dark Theme
           />
