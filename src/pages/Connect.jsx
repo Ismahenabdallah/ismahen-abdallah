@@ -9,6 +9,7 @@ import {
   MapPin,
   User,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { useTheme } from "../context/Theme/ThemeContext";
 
 const Connect = () => {
@@ -19,7 +20,7 @@ const Connect = () => {
     {
       icon: <Mail className="w-5 h-5" />,
       label: "Email",
-      value: "abdallah.ismahen99@gmail.com",
+      value: "ismahen.abdallah.dev@gmail.com",
     },
     {
       icon: <Phone className="w-5 h-5" />,
@@ -80,7 +81,15 @@ const Connect = () => {
                   isDark ? "bg-black" : "bg-white"
                 }`}
               >
-                <User className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 opacity-20" />
+                {/* <User className="w-12 h-12 sm:w-16 sm:h-16 text-blue-600 opacity-20" />
+                 */}
+
+                <motion.div
+                  whileHover={{ rotate: -5, scale: 1.1 }}
+                  className="w-12 h-12 sm:w-16 sm:h-16  rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-extrabold shadow-lg shadow-blue-500/20"
+                >
+                  IA
+                </motion.div>
               </div>
             </div>
           </div>
@@ -171,7 +180,7 @@ const Connect = () => {
         {/* Action Buttons - Stack on mobile, side-by-side on desktop */}
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <a
-            href="mailto:abdallah.ismahen99@gmail.com"
+            href="mailto:ismahen.abdallah.dev@gmail.com"
             className="w-full sm:w-auto px-10 py-4 rounded-2xl font-bold bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:scale-[1.02] sm:hover:scale-105 transition-all duration-300 text-center flex items-center justify-center gap-2"
           >
             <Mail className="w-5 h-5" />

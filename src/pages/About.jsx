@@ -56,7 +56,7 @@ const About = () => {
     },
     {
       degree: "High School Diploma in Computer Science",
-      institution: "18 Janvier 1952 High School",
+      institution: "18 January 1952 High School",
       year: "2019",
     },
   ];
@@ -210,7 +210,7 @@ const About = () => {
         {/* Call to Action - Center align always */}
         <div className="text-center">
           <a
-            href="#work"
+            href="#projects"
             className="inline-flex w-full sm:w-auto px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all shadow-xl shadow-blue-600/20 items-center justify-center gap-3 group"
           >
             Explore My Projects{" "}

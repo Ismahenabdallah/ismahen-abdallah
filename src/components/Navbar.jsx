@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/Theme/ThemeContext";
 import { Menu, X, Sun, Moon } from "lucide-react";
@@ -7,7 +7,7 @@ const navLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Skills", href: "#skills" },
-  { name: "Work", href: "#work" },
+  { name: "projects", href: "#projects" },
   { name: "Connect", href: "#connect" },
 ];
 

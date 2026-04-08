@@ -76,7 +76,7 @@ const Home = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <a
-                href="#work"
+                href="#projects"
                 className="px-8 md:px-10 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-1 text-center"
               >
                 View My Projects
@@ -85,7 +85,7 @@ const Home = () => {
                 href="#connect"
                 className={`px-8 md:px-10 py-4 rounded-2xl font-bold border-2 transition-all hover:-translate-y-1 text-center ${isDark ? "border-white/10 hover:bg-white/5 text-white" : "border-slate-200 hover:bg-slate-100 text-slate-900"}`}
               >
-                Let's Chat
+                Let's Connect
               </a>
             </div>
           </motion.div>

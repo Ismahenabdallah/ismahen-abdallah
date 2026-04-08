@@ -36,13 +36,13 @@ const Footer = () => {
               Ismahen Abdallah
             </h3>
             <p className="text-xs uppercase tracking-widest font-medium opacity-60">
-              Software Developer & Designer
+              Software Developer
             </p>
           </div>
 
           {/* Quick Links - Very Pro touch */}
           <nav className="flex flex-wrap justify-center gap-6 text-sm font-semibold">
-            {["Home", "About", , "Skills", "Work", "Connect"].map((item) => (
+            {["Home", "About", "Skills", "projects", "Connect"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}

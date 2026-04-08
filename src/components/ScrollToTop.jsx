@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowUp } from "react-icons/fa"; // walla lucide-react ArrowUp kima t7eb
 import { useTheme } from "../context/Theme/ThemeContext";
