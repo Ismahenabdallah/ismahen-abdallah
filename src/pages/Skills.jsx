@@ -19,6 +19,9 @@ import {
   SiPython,
   SiChakraui,
   SiNestjs,
+  SiCsharp,
+  SiDotnet,
+  SiMicrosoftsqlserver,
 } from "react-icons/si";
 
 const categories = [
@@ -40,6 +43,7 @@ const categories = [
     skills: [
       { name: "NestJS & Microservices", level: 90, icon: <SiNestjs /> },
       { name: "Node.js / Express", level: 88, icon: <SiNodedotjs /> },
+      { name: "C# / .NET Core / ASP.NET", level: 88, icon: <SiDotnet /> },
       { name: "Python", level: 85, icon: <SiPython /> },
       { name: "API Design (REST / GraphQL)", level: 92, icon: <SiGraphql /> },
       { name: "Authentication & Security", level: 88, icon: <FaTools /> },
@@ -50,6 +54,7 @@ const categories = [
     icon: <FaBrain className="text-purple-500" />,
     skills: [
       { name: "Clean Architecture / SOLID", level: 90, icon: <FaLightbulb /> },
+      { name: "Entity Framework / Prisma", level: 88, icon: <SiCsharp /> }, // Ajouté
       { name: "Problem Solving ", level: 88, icon: <FaBrain /> },
       { name: "Design Patterns", level: 85, icon: <FaCode /> },
       { name: "System Design", level: 82, icon: <FaServer /> },
@@ -59,6 +64,7 @@ const categories = [
     title: "Data & Infrastructure",
     icon: <FaDatabase className="text-cyan-500" />,
     skills: [
+      { name: "SQL Server / MySQL", level: 88, icon: <SiMicrosoftsqlserver /> }, // Ajouté
       { name: "MongoDB / PostgreSQL", level: 86, icon: <SiMongodb /> },
       { name: "RBAC & Security", level: 85, icon: <FaTools /> },
       { name: "Git / GitHub", level: 92, icon: <FaTools /> },
