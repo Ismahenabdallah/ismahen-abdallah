@@ -22,7 +22,6 @@ import {
   SiDotnet,
   SiSharp,
 } from "react-icons/si";
-// import { SiMicrosoftsqlserver } from "react-icons/si";
 const categories = [
   {
     title: "Frontend Mastery",
@@ -63,7 +62,7 @@ const categories = [
     title: "Data & Infrastructure",
     icon: <FaDatabase className="text-cyan-500" />,
     skills: [
-      { name: "SQL Server / MySQL", level: 88, icon: <FaDatabase /> }, // Ajouté
+      { name: "SQL Server / MySQL", level: 88, icon: <FaDatabase /> },
       { name: "MongoDB / PostgreSQL", level: 86, icon: <SiMongodb /> },
       { name: "RBAC & Security", level: 85, icon: <FaTools /> },
       { name: "Git / GitHub", level: 92, icon: <FaTools /> },
