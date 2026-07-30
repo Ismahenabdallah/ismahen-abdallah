@@ -10,7 +10,7 @@ import {
   User,
 } from "lucide-react";
 import { useTheme } from "../context/Theme/ThemeContext";
-
+import { motion } from "framer-motion";
 const Connect = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";

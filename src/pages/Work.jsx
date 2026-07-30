@@ -1,6 +1,146 @@
 import { useState, useMemo } from "react";
 import { useTheme } from "../context/Theme/ThemeContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+
+// Define projects array outside the component to avoid unnecessary re-allocations
+const PROJECTS_DATA = [
+  {
+    id: "1",
+    title: "Pet Dog Website",
+    category: "frontend",
+    img: "./projects/image1.png",
+    tech: ["HTML", "CSS", "Bootstrap"],
+    desc: "A responsive community platform for pet lovers to share tips and care guides.",
+  },
+  {
+    id: "2",
+    title: "Plans Website",
+    category: "frontend",
+    img: "./projects/image2.png",
+    tech: ["HTML", "CSS", "Bootstrap"],
+    desc: "Subscription-based landing page showcasing various service tiers and features.",
+  },
+  {
+    id: "3",
+    title: "Smart Delivery",
+    category: "full stack",
+    img: "./projects/image3.png",
+    tech: ["MERN", "Tailwind", "Sass"],
+    desc: "Logistics management system for real-time tracking and delivery optimization.",
+  },
+  {
+    id: "4",
+    title: "CatStore",
+    category: "frontend",
+    img: "./projects/image4.png",
+    tech: ["React", "Redux", "Bootstrap"],
+    desc: "Modern e-commerce interface for pet supplies with advanced state management.",
+  },
+  {
+    id: "5",
+    title: "Clothes E-commerce",
+    category: "frontend",
+    img: "./projects/image5.png",
+    tech: ["React", "Redux", "Bootstrap"],
+    desc: "Fashion-focused shopping experience with dynamic filtering and cart functionality.",
+  },
+  {
+    id: "6",
+    title: "Resume Website",
+    category: "frontend",
+    img: "./projects/image6.png",
+    tech: ["React", "Material-UI"],
+    desc: "Professional interactive resume showcasing personal projects and experience.",
+  },
+  {
+    id: "7",
+    title: "Modern Shop",
+    category: "frontend",
+    img: "./projects/image7.png",
+    tech: ["Sass", "JS", "TS"],
+    desc: "High-performance storefront with a focus on clean UI and type-safe code.",
+  },
+  {
+    id: "8",
+    title: "Social App",
+    category: "full stack",
+    img: "./projects/image8.png",
+    tech: ["MERN", "Tailwind"],
+    desc: "A full-featured social networking platform with real-time interactions.",
+  },
+  {
+    id: "9",
+    title: "Employee Dashboard",
+    category: "full stack",
+    img: "./projects/image9.png",
+    tech: ["MEAN", "Bootstrap"],
+    desc: "Internal management tool for tracking personnel and organizational records.",
+  },
+  {
+    id: "10",
+    title: "Work Website",
+    category: "full stack",
+    img: "./projects/image10.png",
+    tech: ["MEAN", "Bootstrap"],
+    desc: "Professional job portal connecting talent with specific career opportunities.",
+  },
+  {
+    id: "11",
+    title: "Static Website",
+    category: "frontend",
+    img: "./projects/image11.png",
+    tech: ["Vue.js", "Bootstrap"],
+    desc: "Lightweight and fast landing page built with the Vue ecosystem.",
+  },
+  {
+    id: "12",
+    title: "Restaurant Management",
+    category: "full stack",
+    img: "./projects/image12.png",
+    tech: ["Vue.js", "JSON Server"],
+    desc: "Comprehensive system for managing restaurant orders and digital menus.",
+  },
+  {
+    id: "13",
+    title: "Secure Todo System",
+    category: "full stack",
+    img: "./projects/image13.png",
+    tech: ["MEVN", "JWT", "Vuex"],
+    desc: "A secure task management system featuring full CRUD operations, JWT-based authentication, and persistent data storage.",
+  },
+  {
+    id: "14",
+    title: "Mobile Resume",
+    category: "mobile",
+    img: "./projects/image14.png",
+    tech: ["Flutter", "JSON Server"],
+    desc: "Cross-platform mobile app presenting professional credentials on the go.",
+  },
+  {
+    id: "15",
+    title: "Bank Portal AI",
+    category: "full stack",
+    img: "./projects/image15.png",
+    tech: ["MEAN", "Chatbot"],
+    desc: "Secure banking interface featuring an intelligent assistant for customer support.",
+  },
+  {
+    id: "16",
+    title: "Topic Platform",
+    category: "full stack",
+    img: "./projects/image16.png",
+    tech: ["Next.js", "MongoDB"],
+    desc: "Community-driven discussion board focused on specialized knowledge sharing.",
+  },
+  {
+    id: "17",
+    title: "Pinterest Clone",
+    category: "full stack",
+    img: "./projects/image17.png",
+    tech: ["Next.js", "Firebase"],
+    desc: "High-performance visual discovery engine for saving and sharing ideas.",
+  },
+];
 
 const Work = () => {
   const { theme } = useTheme();
@@ -11,423 +151,9 @@ const Work = () => {
 
   const filteredProjects = useMemo(() => {
     return filter === "all"
-      ? [
-          {
-            id: "1",
-            title: "Pet Dog Website",
-            category: "frontend",
-            img: "./projects/image1.png",
-            tech: ["HTML", "CSS", "Bootstrap"],
-            desc: "A responsive community platform for pet lovers to share tips and care guides.",
-          },
-          {
-            id: "2",
-            title: "Plans Website",
-            category: "frontend",
-            img: "./projects/image2.png",
-            tech: ["HTML", "CSS", "Bootstrap"],
-            desc: "Subscription-based landing page showcasing various service tiers and features.",
-          },
-          {
-            id: "3",
-            title: "Smart Delivery",
-            category: "full stack",
-            img: "./projects/image3.png",
-            tech: ["MERN", "Tailwind", "Sass"],
-            desc: "Logistics management system for real-time tracking and delivery optimization.",
-          },
-          {
-            id: "4",
-            title: "CatStore",
-            category: "frontend",
-            img: "./projects/image4.png",
-            tech: ["React", "Redux", "Bootstrap"],
-            desc: "Modern e-commerce interface for pet supplies with advanced state management.",
-          },
-          {
-            id: "5",
-            title: "Clothes E-commerce",
-            category: "frontend",
-            img: "./projects/image5.png",
-            tech: ["React", "Redux", "Bootstrap"],
-            desc: "Fashion-focused shopping experience with dynamic filtering and cart functionality.",
-          },
-          {
-            id: "6",
-            title: "Resume Website",
-            category: "frontend",
-            img: "./projects/image6.png",
-            tech: ["React", "Material-UI"],
-            desc: "Professional interactive resume showcasing personal projects and experience.",
-          },
-          {
-            id: "7",
-            title: "Modern Shop",
-            category: "frontend",
-            img: "./projects/image7.png",
-            tech: ["Sass", "JS", "TS"],
-            desc: "High-performance storefront with a focus on clean UI and type-safe code.",
-          },
-          {
-            id: "8",
-            title: "Social App",
-            category: "full stack",
-            img: "./projects/image8.png",
-            tech: ["MERN", "Tailwind"],
-            desc: "A full-featured social networking platform with real-time interactions.",
-          },
-          {
-            id: "9",
-            title: "Employee Dashboard",
-            category: "full stack",
-            img: "./projects/image9.png",
-            tech: ["MEAN", "Bootstrap"],
-            desc: "Internal management tool for tracking personnel and organizational records.",
-          },
-          {
-            id: "10",
-            title: "Work Website",
-            category: "full stack",
-            img: "./projects/image10.png",
-            tech: ["MEAN", "Bootstrap"],
-            desc: "Professional job portal connecting talent with specific career opportunities.",
-          },
-          {
-            id: "11",
-            title: "Static Website",
-            category: "frontend",
-            img: "./projects/image11.png",
-            tech: ["Vue.js", "Bootstrap"],
-            desc: "Lightweight and fast landing page built with the Vue ecosystem.",
-          },
-          {
-            id: "12",
-            title: "Restaurant Management",
-            category: "full stack",
-            img: "./projects/image12.png",
-            tech: ["Vue.js", "JSON Server"],
-            desc: "Comprehensive system for managing restaurant orders and digital menus.",
-          },
-          {
-            id: "13",
-            title: "Secure Todo System",
-            category: "full stack",
-            img: "./projects/image13.png",
-            tech: ["MEVN", "JWT", "Vuex"],
-            desc: "A secure task management system featuring full CRUD operations, JWT-based authentication, and persistent data storage.",
-          },
-          {
-            id: "14",
-            title: "Mobile Resume",
-            category: "mobile",
-            img: "./projects/image14.png",
-            tech: ["Flutter", "JSON Server"],
-            desc: "Cross-platform mobile app presenting professional credentials on the go.",
-          },
-          {
-            id: "15",
-            title: "Bank Portal AI",
-            category: "full stack",
-            img: "./projects/image15.png",
-            tech: ["MEAN", "Chatbot"],
-            desc: "Secure banking interface featuring an intelligent assistant for customer support.",
-          },
-          {
-            id: "16",
-            title: "Topic Platform",
-            category: "full stack",
-            img: "./projects/image16.png",
-            tech: ["Next.js", "MongoDB"],
-            desc: "Community-driven discussion board focused on specialized knowledge sharing.",
-          },
-          {
-            id: "17",
-            title: "Pinterest Clone",
-            category: "full stack",
-            img: "./projects/image17.png",
-            tech: ["Next.js", "Firebase"],
-            desc: "High-performance visual discovery engine for saving and sharing ideas.",
-          },
-        ]
-      : [
-          {
-            id: "1",
-            title: "Pet Dog Website",
-            category: "frontend",
-            img: "./projects/image1.png",
-            tech: ["HTML", "CSS", "Bootstrap"],
-            desc: "A responsive community platform for pet lovers to share tips and care guides.",
-          },
-          {
-            id: "2",
-            title: "Plans Website",
-            category: "frontend",
-            img: "./projects/image2.png",
-            tech: ["HTML", "CSS", "Bootstrap"],
-            desc: "Subscription-based landing page showcasing various service tiers and features.",
-          },
-          {
-            id: "3",
-            title: "Smart Delivery",
-            category: "full stack",
-            img: "./projects/image3.png",
-            tech: ["MERN", "Tailwind", "Sass"],
-            desc: "Logistics management system for real-time tracking and delivery optimization.",
-          },
-          {
-            id: "4",
-            title: "CatStore",
-            category: "frontend",
-            img: "./projects/image4.png",
-            tech: ["React", "Redux", "Bootstrap"],
-            desc: "Modern e-commerce interface for pet supplies with advanced state management.",
-          },
-          {
-            id: "5",
-            title: "Clothes E-commerce",
-            category: "frontend",
-            img: "./projects/image5.png",
-            tech: ["React", "Redux", "Bootstrap"],
-            desc: "Fashion-focused shopping experience with dynamic filtering and cart functionality.",
-          },
-          {
-            id: "6",
-            title: "Resume Website",
-            category: "frontend",
-            img: "./projects/image6.png",
-            tech: ["React", "Material-UI"],
-            desc: "Professional interactive resume showcasing personal projects and experience.",
-          },
-          {
-            id: "7",
-            title: "Modern Shop",
-            category: "frontend",
-            img: "./projects/image7.png",
-            tech: ["Sass", "JS", "TS"],
-            desc: "High-performance storefront with a focus on clean UI and type-safe code.",
-          },
-          {
-            id: "8",
-            title: "Social App",
-            category: "full stack",
-            img: "./projects/image8.png",
-            tech: ["MERN", "Tailwind"],
-            desc: "A full-featured social networking platform with real-time interactions.",
-          },
-          {
-            id: "9",
-            title: "Employee Dashboard",
-            category: "full stack",
-            img: "./projects/image9.png",
-            tech: ["MEAN", "Bootstrap"],
-            desc: "Internal management tool for tracking personnel and organizational records.",
-          },
-          {
-            id: "10",
-            title: "Work Website",
-            category: "full stack",
-            img: "./projects/image10.png",
-            tech: ["MEAN", "Bootstrap"],
-            desc: "Professional job portal connecting talent with specific career opportunities.",
-          },
-          {
-            id: "11",
-            title: "Static Website",
-            category: "frontend",
-            img: "./projects/image11.png",
-            tech: ["Vue.js", "Bootstrap"],
-            desc: "Lightweight and fast landing page built with the Vue ecosystem.",
-          },
-          {
-            id: "12",
-            title: "Restaurant Management",
-            category: "full stack",
-            img: "./projects/image12.png",
-            tech: ["Vue.js", "JSON Server"],
-            desc: "Comprehensive system for managing restaurant orders and digital menus.",
-          },
-          {
-            id: "13",
-            title: "Secure Todo System",
-            category: "full stack",
-            img: "./projects/image13.png",
-            tech: ["MEVN", "JWT", "Vuex"],
-            desc: "A secure task management system featuring full CRUD operations, JWT-based authentication, and persistent data storage.",
-          },
-          {
-            id: "14",
-            title: "Mobile Resume",
-            category: "mobile",
-            img: "./projects/image14.png",
-            tech: ["Flutter", "JSON Server"],
-            desc: "Cross-platform mobile app presenting professional credentials on the go.",
-          },
-          {
-            id: "15",
-            title: "Bank Portal AI",
-            category: "full stack",
-            img: "./projects/image15.png",
-            tech: ["MEAN", "Chatbot"],
-            desc: "Secure banking interface featuring an intelligent assistant for customer support.",
-          },
-          {
-            id: "16",
-            title: "Topic Platform",
-            category: "full stack",
-            img: "./projects/image16.png",
-            tech: ["Next.js", "MongoDB"],
-            desc: "Community-driven discussion board focused on specialized knowledge sharing.",
-          },
-          {
-            id: "17",
-            title: "Pinterest Clone",
-            category: "full stack",
-            img: "./projects/image17.png",
-            tech: ["Next.js", "Firebase"],
-            desc: "High-performance visual discovery engine for saving and sharing ideas.",
-          },
-        ].filter((p) => p.category === filter);
-  }, [
-    filter,
-    [
-      {
-        id: "1",
-        title: "Pet Dog Website",
-        category: "frontend",
-        img: "./projects/image1.png",
-        tech: ["HTML", "CSS", "Bootstrap"],
-        desc: "A responsive community platform for pet lovers to share tips and care guides.",
-      },
-      {
-        id: "2",
-        title: "Plans Website",
-        category: "frontend",
-        img: "./projects/image2.png",
-        tech: ["HTML", "CSS", "Bootstrap"],
-        desc: "Subscription-based landing page showcasing various service tiers and features.",
-      },
-      {
-        id: "3",
-        title: "Smart Delivery",
-        category: "full stack",
-        img: "./projects/image3.png",
-        tech: ["MERN", "Tailwind", "Sass"],
-        desc: "Logistics management system for real-time tracking and delivery optimization.",
-      },
-      {
-        id: "4",
-        title: "CatStore",
-        category: "frontend",
-        img: "./projects/image4.png",
-        tech: ["React", "Redux", "Bootstrap"],
-        desc: "Modern e-commerce interface for pet supplies with advanced state management.",
-      },
-      {
-        id: "5",
-        title: "Clothes E-commerce",
-        category: "frontend",
-        img: "./projects/image5.png",
-        tech: ["React", "Redux", "Bootstrap"],
-        desc: "Fashion-focused shopping experience with dynamic filtering and cart functionality.",
-      },
-      {
-        id: "6",
-        title: "Resume Website",
-        category: "frontend",
-        img: "./projects/image6.png",
-        tech: ["React", "Material-UI"],
-        desc: "Professional interactive resume showcasing personal projects and experience.",
-      },
-      {
-        id: "7",
-        title: "Modern Shop",
-        category: "frontend",
-        img: "./projects/image7.png",
-        tech: ["Sass", "JS", "TS"],
-        desc: "High-performance storefront with a focus on clean UI and type-safe code.",
-      },
-      {
-        id: "8",
-        title: "Social App",
-        category: "full stack",
-        img: "./projects/image8.png",
-        tech: ["MERN", "Tailwind"],
-        desc: "A full-featured social networking platform with real-time interactions.",
-      },
-      {
-        id: "9",
-        title: "Employee Dashboard",
-        category: "full stack",
-        img: "./projects/image9.png",
-        tech: ["MEAN", "Bootstrap"],
-        desc: "Internal management tool for tracking personnel and organizational records.",
-      },
-      {
-        id: "10",
-        title: "Work Website",
-        category: "full stack",
-        img: "./projects/image10.png",
-        tech: ["MEAN", "Bootstrap"],
-        desc: "Professional job portal connecting talent with specific career opportunities.",
-      },
-      {
-        id: "11",
-        title: "Static Website",
-        category: "frontend",
-        img: "./projects/image11.png",
-        tech: ["Vue.js", "Bootstrap"],
-        desc: "Lightweight and fast landing page built with the Vue ecosystem.",
-      },
-      {
-        id: "12",
-        title: "Restaurant Management",
-        category: "full stack",
-        img: "./projects/image12.png",
-        tech: ["Vue.js", "JSON Server"],
-        desc: "Comprehensive system for managing restaurant orders and digital menus.",
-      },
-      {
-        id: "13",
-        title: "Secure Todo System",
-        category: "full stack",
-        img: "./projects/image13.png",
-        tech: ["MEVN", "JWT", "Vuex"],
-        desc: "A secure task management system featuring full CRUD operations, JWT-based authentication, and persistent data storage.",
-      },
-      {
-        id: "14",
-        title: "Mobile Resume",
-        category: "mobile",
-        img: "./projects/image14.png",
-        tech: ["Flutter", "JSON Server"],
-        desc: "Cross-platform mobile app presenting professional credentials on the go.",
-      },
-      {
-        id: "15",
-        title: "Bank Portal AI",
-        category: "full stack",
-        img: "./projects/image15.png",
-        tech: ["MEAN", "Chatbot"],
-        desc: "Secure banking interface featuring an intelligent assistant for customer support.",
-      },
-      {
-        id: "16",
-        title: "Topic Platform",
-        category: "full stack",
-        img: "./projects/image16.png",
-        tech: ["Next.js", "MongoDB"],
-        desc: "Community-driven discussion board focused on specialized knowledge sharing.",
-      },
-      {
-        id: "17",
-        title: "Pinterest Clone",
-        category: "full stack",
-        img: "./projects/image17.png",
-        tech: ["Next.js", "Firebase"],
-        desc: "High-performance visual discovery engine for saving and sharing ideas.",
-      },
-    ],
-  ]);
+      ? PROJECTS_DATA
+      : PROJECTS_DATA.filter((p) => p.category === filter);
+  }, [filter]);
 
   return (
     <div
@@ -450,7 +176,7 @@ const Work = () => {
           <div className="w-16 md:w-20 h-1.5 bg-blue-600 mx-auto rounded-full" />
         </div>
 
-        {/* Filter Buttons - Wrap on mobile, Center on desktop */}
+        {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-3 mb-12 md:mb-16">
           {categories.map((cat) => (
             <button
@@ -469,6 +195,7 @@ const Work = () => {
             </button>
           ))}
         </div>
+
         {/* Projects Grid */}
         <motion.div
           layout
@@ -486,7 +213,7 @@ const Work = () => {
                 className={`group rounded-[2rem] overflow-hidden border transition-all flex flex-col
                   ${isDark ? "bg-zinc-900/50 border-white/5 hover:border-blue-500/40" : "bg-white border-slate-100 shadow-sm hover:shadow-xl"}`}
               >
-                {/* Project Image - Fixed Aspect Ratio & Object Contain */}
+                {/* Project Image */}
                 <div
                   className={`aspect-video overflow-hidden relative flex items-center justify-center p-2 ${isDark ? "bg-zinc-800/50" : "bg-gray-100"}`}
                 >
