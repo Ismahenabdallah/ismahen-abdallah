@@ -25,7 +25,7 @@ const Connect = () => {
     {
       icon: <Phone className="w-5 h-5" />,
       label: "Phone",
-      value: "+216 55 968 917",
+      value: "+216 93 903 750",
     },
     {
       icon: <GraduationCap className="w-5 h-5" />,
