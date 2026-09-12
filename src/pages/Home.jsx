@@ -99,7 +99,7 @@ const Home = () => {
               className={`col-span-2 relative aspect-[4/3] sm:aspect-video lg:aspect-square xl:aspect-video rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border ${isDark ? "border-white/10 bg-zinc-900" : "border-slate-200 bg-white"} shadow-2xl group`}
             >
               <img
-                src="./picture_cv.jpg"
+                src="./picture_cv.jpeg"
                 alt="Ismahen"
                 className="w-full h-full object-cover duration-700 ease-in-out scale-105 group-hover:scale-100 transition-transform"
               />

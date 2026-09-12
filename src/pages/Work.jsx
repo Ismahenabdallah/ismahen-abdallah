@@ -166,6 +166,7 @@ const Work = () => {
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             className={`text-4xl md:text-6xl font-black mb-4 tracking-tighter ${isDark ? "text-white" : "text-slate-900"}`}
           >
             My{" "}
@@ -182,14 +183,13 @@ const Work = () => {
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`px-5 py-2.5 rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all
-        ${
-          filter === cat
-            ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
-            : isDark
-              ? "bg-white/5 text-gray-400 hover:bg-white/10"
-              : "bg-white text-gray-600 shadow-sm border border-slate-100"
-        }`}
+              className={`px-5 py-2.5 rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all ${
+                filter === cat
+                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30"
+                  : isDark
+                    ? "bg-white/5 text-gray-400 hover:bg-white/10"
+                    : "bg-white text-gray-600 shadow-sm border border-slate-100"
+              }`}
             >
               {cat}
             </button>
@@ -210,17 +210,23 @@ const Work = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4 }}
-                className={`group rounded-[2rem] overflow-hidden border transition-all flex flex-col
-                  ${isDark ? "bg-zinc-900/50 border-white/5 hover:border-blue-500/40" : "bg-white border-slate-100 shadow-sm hover:shadow-xl"}`}
+                className={`group rounded-[2rem] overflow-hidden border transition-all flex flex-col ${
+                  isDark
+                    ? "bg-zinc-900/50 border-white/5 hover:border-blue-500/40"
+                    : "bg-white border-slate-100 shadow-sm hover:shadow-xl"
+                }`}
               >
                 {/* Project Image */}
                 <div
-                  className={`aspect-video overflow-hidden relative flex items-center justify-center p-2 ${isDark ? "bg-zinc-800/50" : "bg-gray-100"}`}
+                  className={`aspect-video overflow-hidden relative flex items-center justify-center p-2 ${
+                    isDark ? "bg-zinc-800/50" : "bg-gray-100"
+                  }`}
                 >
                   <img
                     src={project.img}
                     alt={project.title}
                     className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
                   />
                 </div>
 
@@ -232,12 +238,16 @@ const Work = () => {
                     </span>
                   </div>
                   <h3
-                    className={`text-xl md:text-2xl font-bold mb-3 ${isDark ? "text-white" : "text-slate-900"}`}
+                    className={`text-xl md:text-2xl font-bold mb-3 ${
+                      isDark ? "text-white" : "text-slate-900"
+                    }`}
                   >
                     {project.title}
                   </h3>
                   <p
-                    className={`text-sm leading-relaxed mb-6 line-clamp-3 flex-grow ${isDark ? "text-gray-400" : "text-gray-600"}`}
+                    className={`text-sm leading-relaxed mb-6 line-clamp-3 flex-grow ${
+                      isDark ? "text-gray-400" : "text-gray-600"
+                    }`}
                   >
                     {project.desc}
                   </p>
@@ -246,7 +256,11 @@ const Work = () => {
                     {project.tech.map((t) => (
                       <span
                         key={t}
-                        className={`text-[9px] font-bold px-2 py-1 rounded transition-colors ${isDark ? "bg-white/5 text-gray-500 group-hover:text-blue-400" : "bg-slate-50 text-slate-400 group-hover:text-blue-600"}`}
+                        className={`text-[9px] font-bold px-2 py-1 rounded transition-colors ${
+                          isDark
+                            ? "bg-white/5 text-gray-500 group-hover:text-blue-400"
+                            : "bg-slate-50 text-slate-400 group-hover:text-blue-600"
+                        }`}
                       >
                         {t}
                       </span>
