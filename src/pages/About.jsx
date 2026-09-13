@@ -1,5 +1,11 @@
 import { useTheme } from "../context/Theme/ThemeContext";
-import { FaGraduationCap, FaArrowRight, FaBriefcase } from "react-icons/fa";
+import {
+  FaGraduationCap,
+  FaArrowRight,
+  FaCode,
+  FaServer,
+  FaTools,
+} from "react-icons/fa";
 
 const About = () => {
   const { theme } = useTheme() || { theme: "dark" };
@@ -11,33 +17,40 @@ const About = () => {
   const borderColor = isDark ? "border-white/5" : "border-slate-200";
   const headingColor = isDark ? "text-white" : "text-slate-900";
 
-  const experiences = [
+  const skillsData = [
     {
-      role: "Software Developer Intern",
-      company: "Afritic Group",
-      period: "Aug 2023 – Oct 2023",
-      location: "Maine, USA (Remote)",
-      tags: ["React", "Tailwind CSS", "REST APIs"],
-      impact:
-        "Developed responsive UIs and integrated APIs with robust state management.",
+      category: "Backend Mastery",
+      skills: [
+        ".NET Core (C#)",
+        "ASP.NET Web API",
+        "Node.js",
+        "Express.js",
+        "FastAPI",
+        "GraphQL",
+      ],
     },
     {
-      role: "Full-Stack Software Developer",
-      company: "Afritic Group",
-      period: "Nov 2023 – Jan 2026",
-      location: "Maine, USA (Remote)",
-      tags: ["MERN", "Next.js", "Agile", "RBAC"],
-      impact:
-        "Developed scalable end-to-end applications and optimized databases within international Agile teams.",
+      category: "Frontend Mastery",
+      skills: [
+        "React.js",
+        "Next.js",
+        "TypeScript",
+        "Angular",
+        "Vue.js",
+        "Tailwind CSS",
+      ],
     },
     {
-      role: "Software Developer Intern",
-      company: "Logicom",
-      period: "Apr 2024 – Jul 2024",
-      location: "Sfax, Tunisia",
-      tags: ["MERN", "Security", "JWT"],
-      impact:
-        "Engineered internal web tools and secure authentication systems to boost efficiency.",
+      category: "Architecture & Data",
+      skills: [
+        "Clean Architecture",
+        "SOLID Principles",
+        "PostgreSQL",
+        "MongoDB",
+        "MySQL",
+        "Prisma ORM",
+        "Docker",
+      ],
     },
   ];
 
@@ -66,7 +79,7 @@ const About = () => {
       className={`${containerBg} min-h-screen py-20 md:py-32 transition-colors duration-500 relative overflow-hidden`}
     >
       <div className="max-w-6xl mx-auto px-5 md:px-8 relative z-10">
-        {/* Header Section - Scale fixed for mobile */}
+        {/* Header Section */}
         <div className="text-center mb-16 md:mb-20">
           <h1
             className={`text-4xl sm:text-6xl md:text-7xl font-black mb-6 tracking-tighter ${headingColor}`}
@@ -79,9 +92,9 @@ const About = () => {
           <div className="w-16 md:w-20 h-1.5 bg-blue-600 mx-auto rounded-full"></div>
         </div>
 
-        {/* Bio Section - Fixed padding for small screens */}
+        {/* Professional Summary */}
         <div
-          className={`rounded-[2rem] md:rounded-[2.5rem] border ${borderColor} ${cardBg} p-6 md:p-12 mb-12 md:mb-16 shadow-2xl backdrop-blur-md`}
+          className={`rounded-[2rem] md:rounded-[2.5rem] border ${borderColor} ${cardBg} p-6 md:p-12 mb-12 md:mb-16 shadow-2xl`}
         >
           <h2
             className={`text-2xl md:text-3xl font-black mb-6 tracking-tight ${headingColor}`}
@@ -92,68 +105,48 @@ const About = () => {
             className={`space-y-4 text-base md:text-lg leading-relaxed ${textPrimary}`}
           >
             <p>
-              I am a{" "}
+              Full Stack Developer with{" "}
               <span className="font-bold text-blue-500">
-                Full Stack Web Developer
+                3 years of experience
+              </span>
+              , specializing in designing robust full-stack applications with
+              the{" "}
+              <span className="font-bold text-blue-500">
+                .NET ecosystem (C#, ASP.NET Core)
               </span>{" "}
-              based in Sfax, Tunisia, with over 3 years of experience in the
-              software industry. I specialize in building end-to-end
-              applications using modern technologies.
+              and modern JS frameworks.
             </p>
             <p>
-              My approach combines technical rigor with a deep understanding of
-              business needs. Having worked with international companies, I have
-              honed my skills in remote collaboration, Agile development, and
-              delivering scalable code that meets global standards.
+              Passionate about Clean Architecture and SOLID principles,
+              committed to delivering high-quality, maintainable, and
+              high-performance code to solve complex business challenges.
             </p>
           </div>
         </div>
 
-        {/* Professional Experience Section - Grid responsive */}
+        {/* Technical Skills Section */}
         <div className="mb-16 md:mb-20">
           <h2
-            className={`text-2xl md:text-3xl font-black text-center mb-10 md:mb-12 tracking-tight ${headingColor}`}
+            className={`text-2xl md:text-3xl font-black text-center mb-10 tracking-tight ${headingColor}`}
           >
-            Professional <span className="text-blue-500">Journey</span>
+            Technical <span className="text-blue-500">Expertise</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {experiences.map((exp, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {skillsData.map((group, index) => (
               <div
                 key={index}
-                className={`p-6 md:p-8 rounded-[1.8rem] md:rounded-[2rem] border ${borderColor} ${cardBg} transition-all hover:shadow-xl group`}
+                className={`p-6 rounded-[2rem] border ${borderColor} ${cardBg}`}
               >
-                <div className="flex justify-between items-start mb-6">
-                  <div className="p-3 md:p-4 rounded-xl bg-blue-500/10 text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                    <FaBriefcase className="text-lg md:text-xl" />
-                  </div>
-                  <span className="text-[10px] text-blue-500 font-black tracking-widest opacity-40 uppercase">
-                    {exp.period}
-                  </span>
-                </div>
-
-                <h3
-                  className={`text-lg md:text-xl font-bold mb-1 ${headingColor}`}
-                >
-                  {exp.role}
+                <h3 className={`text-lg font-bold mb-4 text-blue-500`}>
+                  {group.category}
                 </h3>
-                <p className="text-blue-500 font-bold text-xs md:text-sm mb-4 leading-tight">
-                  {exp.company}{" "}
-                  <span className="opacity-50 font-medium">
-                    | {exp.location}
-                  </span>
-                </p>
-
-                <p className={`${textPrimary} text-sm leading-relaxed mb-6`}>
-                  {exp.impact}
-                </p>
-
                 <div className="flex flex-wrap gap-2">
-                  {exp.tags.map((tag) => (
+                  {group.skills.map((s) => (
                     <span
-                      key={tag}
-                      className="text-[9px] font-bold px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/5 text-blue-400 uppercase tracking-tighter"
+                      key={s}
+                      className="text-xs font-semibold px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/5 text-blue-400"
                     >
-                      {tag}
+                      {s}
                     </span>
                   ))}
                 </div>
@@ -162,7 +155,7 @@ const About = () => {
           </div>
         </div>
 
-        {/* Education Section - Stacked for Mobile */}
+        {/* Education Section */}
         <div className="mb-16 md:mb-20">
           <h2
             className={`text-2xl md:text-3xl font-black text-center mb-10 md:mb-12 tracking-tight ${headingColor}`}
@@ -173,7 +166,7 @@ const About = () => {
             {education.map((edu, index) => (
               <div
                 key={index}
-                className={`flex flex-col md:flex-row md:items-center justify-between p-6 md:p-8 rounded-[1.5rem] md:rounded-3xl border ${borderColor} ${cardBg} hover:border-blue-500/30 transition-all shadow-sm`}
+                className={`flex flex-col md:flex-row md:items-center justify-between p-6 md:p-8 rounded-3xl border ${borderColor} ${cardBg}`}
               >
                 <div className="flex gap-4 items-start">
                   <div className="hidden xs:flex p-3 md:p-4 rounded-xl bg-blue-500/10 text-blue-500 shrink-0">
@@ -181,7 +174,7 @@ const About = () => {
                   </div>
                   <div>
                     <h3
-                      className={`text-base md:text-xl font-bold ${headingColor} leading-tight`}
+                      className={`text-base md:text-xl font-bold ${headingColor}`}
                     >
                       {edu.degree}
                     </h3>
@@ -207,13 +200,13 @@ const About = () => {
           </div>
         </div>
 
-        {/* Call to Action - Center align always */}
+        {/* CTA */}
         <div className="text-center">
           <a
             href="#projects"
-            className="inline-flex w-full sm:w-auto px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all shadow-xl shadow-blue-600/20 items-center justify-center gap-3 group"
+            className="inline-flex px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all shadow-xl shadow-blue-600/20 items-center gap-3 group"
           >
-            Explore My Projects{" "}
+            Explore My Work & Experience{" "}
             <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
           </a>
         </div>

@@ -23,12 +23,11 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000);
+    const timer = setTimeout(() => setIsLoading(false), 2500);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    // 1. GHALLAF EL KOL B <Router> HOUNI
     <Router>
       <div className="bg-[#050505] min-h-screen">
         <AnimatePresence mode="wait">
