@@ -1,13 +1,18 @@
 import { motion } from "framer-motion";
 import { useTheme } from "../context/Theme/ThemeContext";
 import { FaBrain, FaTerminal } from "react-icons/fa";
-import { SiReact, SiAngular, SiVuedotjs } from "react-icons/si";
+import { SiReact, SiAngular, SiVuedotjs, SiDotnet } from "react-icons/si";
 
 const Home = () => {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
   const techStacks = [
+    {
+      title: ".NET Core & C#",
+      icon: <SiDotnet className="text-[#512BD4]" />,
+      bg: "hover:bg-[#512BD4]/10",
+    },
     {
       title: "MERN Stack",
       icon: <SiReact className="text-[#61DAFB]" />,
@@ -24,7 +29,7 @@ const Home = () => {
       bg: "hover:bg-[#4FC08D]/10",
     },
     {
-      title: "AI & ML",
+      title: "AI & ML Integration",
       icon: <FaBrain className="text-purple-500" />,
       bg: "hover:bg-purple-500/10",
     },
@@ -32,15 +37,21 @@ const Home = () => {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-500 overflow-hidden relative ${isDark ? "bg-[#080808] text-white" : "bg-slate-50 text-slate-900"}`}
+      className={`min-h-screen transition-colors duration-500 overflow-hidden relative ${
+        isDark ? "bg-[#080808] text-white" : "bg-slate-50 text-slate-900"
+      }`}
     >
       {/* Background Decor */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
         <div
-          className={`absolute top-[-5%] left-[-5%] w-[50%] h-[50%] blur-[120px] rounded-full ${isDark ? "bg-blue-600/10" : "bg-blue-200/40"}`}
+          className={`absolute top-[-5%] left-[-5%] w-[50%] h-[50%] blur-[120px] rounded-full ${
+            isDark ? "bg-blue-600/10" : "bg-blue-200/40"
+          }`}
         />
         <div
-          className={`absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] blur-[100px] rounded-full ${isDark ? "bg-indigo-600/10" : "bg-indigo-200/40"}`}
+          className={`absolute bottom-[-5%] right-[-5%] w-[40%] h-[40%] blur-[100px] rounded-full ${
+            isDark ? "bg-indigo-600/10" : "bg-indigo-200/40"
+          }`}
         />
       </div>
 
@@ -60,18 +71,27 @@ const Home = () => {
               </span>
             </h1>
 
+            {/* Direct & Impactful Bio Summary */}
             <p
-              className={`text-base md:text-xl mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed ${isDark ? "text-gray-400" : "text-gray-600"}`}
+              className={`text-base md:text-lg mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed ${
+                isDark ? "text-gray-300" : "text-gray-700"
+              }`}
             >
-              Architecting scalable web ecosystems using{" "}
-              <span className="text-blue-500 font-bold">
-                MERN, MEAN, & MEVN
+              Full Stack Developer with experience specializing in designing
+              robust full-stack applications with the{" "}
+              <span className="text-blue-500 font-semibold">
+                .NET ecosystem (C#, ASP.NET Core)
               </span>{" "}
-              stacks. Bridging the gap between robust backends and intelligent{" "}
-              <span className="italic underline decoration-blue-500/50">
-                AI/ML solutions
+              and modern JS frameworks. Passionate about{" "}
+              <span className="font-semibold text-indigo-400">
+                Clean Architecture
+              </span>{" "}
+              and{" "}
+              <span className="font-semibold text-indigo-400">
+                SOLID principles
               </span>
-              .
+              , committed to delivering high-quality, maintainable, and
+              high-performance code to solve complex business challenges.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -83,7 +103,11 @@ const Home = () => {
               </a>
               <a
                 href="#connect"
-                className={`px-8 md:px-10 py-4 rounded-2xl font-bold border-2 transition-all hover:-translate-y-1 text-center ${isDark ? "border-white/10 hover:bg-white/5 text-white" : "border-slate-200 hover:bg-slate-100 text-slate-900"}`}
+                className={`px-8 md:px-10 py-4 rounded-2xl font-bold border-2 transition-all hover:-translate-y-1 text-center ${
+                  isDark
+                    ? "border-white/10 hover:bg-white/5 text-white"
+                    : "border-slate-200 hover:bg-slate-100 text-slate-900"
+                }`}
               >
                 Let's Connect
               </a>
@@ -91,12 +115,16 @@ const Home = () => {
           </motion.div>
 
           {/* --- RIGHT SIDE: BENTO GRID & IMAGE --- */}
-          <div className="mt-6 lg:col-span-6 grid grid-cols-2 gap-3 md:gap-4 order-1 lg:order-2">
+          <div className="mt-6 lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 order-1 lg:order-2">
             {/* Main Image Card */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className={`col-span-2 relative aspect-[4/3] sm:aspect-video lg:aspect-square xl:aspect-video rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border ${isDark ? "border-white/10 bg-zinc-900" : "border-slate-200 bg-white"} shadow-2xl group`}
+              className={`col-span-2 sm:col-span-3 lg:col-span-2 xl:col-span-3 relative aspect-[4/3] sm:aspect-video lg:aspect-square xl:aspect-video rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border ${
+                isDark
+                  ? "border-white/10 bg-zinc-900"
+                  : "border-slate-200 bg-white"
+              } shadow-2xl group`}
             >
               <img
                 src="./picture_cv.jpeg"
@@ -120,16 +148,18 @@ const Home = () => {
               <motion.div
                 key={i}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className={`p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border transition-all cursor-default ${tech.bg} ${
+                className={`p-4 md:p-5 rounded-[1.5rem] md:rounded-[2rem] border transition-all cursor-default ${
+                  tech.bg
+                } ${
                   isDark
                     ? "bg-zinc-900 border-white/10"
                     : "bg-white border-slate-200 shadow-sm"
                 }`}
               >
-                <div className="text-2xl md:text-3xl mb-3 md:mb-4">
+                <div className="text-2xl md:text-3xl mb-2 md:mb-3">
                   {tech.icon}
                 </div>
-                <h3 className="font-bold text-xs md:text-base tracking-tight">
+                <h3 className="font-bold text-xs md:text-sm tracking-tight">
                   {tech.title}
                 </h3>
               </motion.div>

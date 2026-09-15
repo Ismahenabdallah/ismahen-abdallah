@@ -42,15 +42,17 @@ const Footer = () => {
 
           {/* Quick Links - Very Pro touch */}
           <nav className="flex flex-wrap justify-center gap-6 text-sm font-semibold">
-            {["Home", "About", "Skills", "projects", "Connect"].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="hover:text-blue-500 transition-colors duration-300"
-              >
-                {item}
-              </a>
-            ))}
+            {["Home", "Education", "Skills", "projects", "Connect"].map(
+              (item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="hover:text-blue-500 transition-colors duration-300"
+                >
+                  {item}
+                </a>
+              ),
+            )}
           </nav>
 
           {/* Social Icons */}

@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom"; // Zid hadi houni
 import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import About from "./pages/About";
+import Education from "./pages/Education";
 import Skills from "./pages/Skills";
 import Work from "./pages/Work";
 import Connect from "./pages/Connect";
@@ -44,8 +44,8 @@ const App = () => {
                 <section id="home">
                   <Home />
                 </section>
-                <section id="about">
-                  <About />
+                <section id="education">
+                  <Education />
                 </section>
                 <section id="skills">
                   <Skills />
