@@ -47,7 +47,7 @@ const Connect = () => {
     {
       icon: <Linkedin className="w-5 h-5" />,
       label: "LinkedIn",
-      link: "https://www.linkedin.com/in/ismahen-abdallah-a665791ba/",
+      link: "www.linkedin.com/in/ismahen-abdallah",
     },
     {
       icon: <MessageCircle className="w-5 h-5" />,

@@ -85,10 +85,11 @@ const PROJECT_ITEMS = [
     period: "Featured Project",
     location: "Logistics Platform",
     type: "Fullstack Project",
-    tech: ["MERN Stack", "Tailwind CSS", "Sass", "Redux Toolkit"],
+    tech: ["MERN Stack", "Tailwind CSS", "Sass", "Redux Toolkit", "Socket.io"],
     points: [
       "Developed an advanced logistics management system equipped with <strong class='text-blue-500'>real-time order tracking</strong>.",
       "Built an administrator analytics dashboard designed to optimize delivery performance and routing workflows.",
+      "Implemented a <strong class='text-blue-500'>real-time chat system</strong> for seamless communication between customers and delivery personnel.",
     ],
   },
   {
@@ -106,11 +107,12 @@ const PROJECT_ITEMS = [
     title: "Recruitment Platform",
     period: "Featured Project",
     location: "Job Portal",
-    type: "Frontend / Fullstack",
-    tech: ["React", "TypeScript", "Tailwind CSS"],
+    type: "Fullstack",
+    tech: ["MEAN", "TypeScript", "Tailwind CSS"],
     points: [
       "Built a modern job board and application tracking platform featuring robust filtering modules.",
-      "Designed clean UI architecture and streamlined candidate workflows for international recruitment.",
+      "Developed dual user interfaces tailored for Enterprise and Candidate workflows, streamlining job postings and application tracking.",
+      "Designed clean UI architecture and streamlined candidate management for international recruitment.",
     ],
   },
 ];

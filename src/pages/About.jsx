@@ -105,16 +105,15 @@ const About = () => {
             className={`space-y-4 text-base md:text-lg leading-relaxed ${textPrimary}`}
           >
             <p>
-              Full Stack Developer with{" "}
+              Full Stack Developer with over{" "}
               <span className="font-bold text-blue-500">
                 3 years of experience
               </span>
               , specializing in designing robust full-stack applications with
               the{" "}
               <span className="font-bold text-blue-500">
-                .NET ecosystem (C#, ASP.NET Core)
+                .NET ecosystem (C#, ASP.NET Core) and modern JS frameworks.
               </span>{" "}
-              and modern JS frameworks.
             </p>
             <p>
               Passionate about Clean Architecture and SOLID principles,
