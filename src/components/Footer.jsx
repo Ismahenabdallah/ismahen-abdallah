@@ -12,7 +12,7 @@ const Footer = () => {
     },
     {
       icon: <Linkedin className="w-4 h-4" />,
-      link: "www.linkedin.com/in/ismahen-abdallah",
+      link: "https://www.linkedin.com/in/ismahen-abdallah/",
     },
     {
       icon: <MessageCircle className="w-4 h-4" />,
