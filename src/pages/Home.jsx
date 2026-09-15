@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/Theme/ThemeContext";
 import { FaBrain, FaTerminal } from "react-icons/fa";
@@ -11,27 +12,27 @@ const Home = () => {
     {
       title: ".NET Core & C#",
       icon: <SiDotnet className="text-[#512BD4]" />,
-      bg: "hover:bg-[#512BD4]/10",
+      bg: "hover:bg-[#512BD4]/10 hover:border-[#512BD4]/40",
     },
     {
       title: "MERN Stack",
       icon: <SiReact className="text-[#61DAFB]" />,
-      bg: "hover:bg-[#61DAFB]/10",
+      bg: "hover:bg-[#61DAFB]/10 hover:border-[#61DAFB]/40",
     },
     {
       title: "MEAN Stack",
       icon: <SiAngular className="text-[#DD0031]" />,
-      bg: "hover:bg-[#DD0031]/10",
+      bg: "hover:bg-[#DD0031]/10 hover:border-[#DD0031]/40",
     },
     {
       title: "MEVN Stack",
       icon: <SiVuedotjs className="text-[#4FC08D]" />,
-      bg: "hover:bg-[#4FC08D]/10",
+      bg: "hover:bg-[#4FC08D]/10 hover:border-[#4FC08D]/40",
     },
     {
       title: "AI & ML Integration",
       icon: <FaBrain className="text-purple-500" />,
-      bg: "hover:bg-purple-500/10",
+      bg: "hover:bg-purple-500/10 hover:border-purple-500/40",
     },
   ];
 
@@ -115,12 +116,12 @@ const Home = () => {
           </motion.div>
 
           {/* --- RIGHT SIDE: BENTO GRID & IMAGE --- */}
-          <div className="mt-6 lg:col-span-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 order-1 lg:order-2">
-            {/* Main Image Card */}
+          <div className="mt-6 lg:col-span-6 grid grid-cols-2 sm:grid-cols-6 gap-3 md:gap-4 order-1 lg:order-2">
+            {/* Main Image Card (Full Width in Grid) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className={`col-span-2 sm:col-span-3 lg:col-span-2 xl:col-span-3 relative aspect-[4/3] sm:aspect-video lg:aspect-square xl:aspect-video rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border ${
+              className={`col-span-2 sm:col-span-6 relative aspect-[4/3] sm:aspect-video rounded-[2rem] md:rounded-[2.5rem] overflow-hidden border ${
                 isDark
                   ? "border-white/10 bg-zinc-900"
                   : "border-slate-200 bg-white"
@@ -143,12 +144,12 @@ const Home = () => {
               </div>
             </motion.div>
 
-            {/* Tech Stack Cards (Bento Style) */}
-            {techStacks.map((tech, i) => (
+            {/* Row 1: First 3 Tech Stack Cards (2 columns each in a 6-col grid) */}
+            {techStacks.slice(0, 3).map((tech, i) => (
               <motion.div
                 key={i}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className={`p-4 md:p-5 rounded-[1.5rem] md:rounded-[2rem] border transition-all cursor-default ${
+                className={`col-span-1 sm:col-span-2 p-4 md:p-5 rounded-[1.5rem] md:rounded-[2rem] border transition-all cursor-default flex flex-col justify-between ${
                   tech.bg
                 } ${
                   isDark
@@ -159,6 +160,26 @@ const Home = () => {
                 <div className="text-2xl md:text-3xl mb-2 md:mb-3">
                   {tech.icon}
                 </div>
+                <h3 className="font-bold text-xs md:text-sm tracking-tight">
+                  {tech.title}
+                </h3>
+              </motion.div>
+            ))}
+
+            {/* Row 2: Last 2 Tech Stack Cards (3 columns each in a 6-col grid) */}
+            {techStacks.slice(3, 5).map((tech, i) => (
+              <motion.div
+                key={i + 3}
+                whileHover={{ y: -5, scale: 1.02 }}
+                className={`col-span-1 sm:col-span-3 p-4 md:p-5 rounded-[1.5rem] md:rounded-[2rem] border transition-all cursor-default flex items-center gap-4 ${
+                  tech.bg
+                } ${
+                  isDark
+                    ? "bg-zinc-900 border-white/10"
+                    : "bg-white border-slate-200 shadow-sm"
+                }`}
+              >
+                <div className="text-2xl md:text-3xl shrink-0">{tech.icon}</div>
                 <h3 className="font-bold text-xs md:text-sm tracking-tight">
                   {tech.title}
                 </h3>
