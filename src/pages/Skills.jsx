@@ -32,36 +32,36 @@ const CATEGORIES = [
     title: "Frontend Mastery",
     icon: <Code className="w-5 h-5 text-blue-500" />,
     skills: [
-      { name: "React / Next.js", level: 95, icon: <SiReact /> },
-      { name: "TypeScript Mastery", level: 92, icon: <SiTypescript /> },
+      { name: "React / Next.js", level: 80, icon: <SiReact /> },
+      { name: "TypeScript Mastery", level: 80, icon: <SiTypescript /> },
       {
         name: "Tailwind CSS / UI Libraries",
-        level: 92,
+        level: 80,
         icon: <SiTailwindcss />,
       },
       {
         name: "State Management (Redux/Zustand)",
-        level: 90,
+        level: 80,
         icon: <SiReact />,
       },
-      { name: "Angular", level: 85, icon: <SiAngular /> },
-      { name: "Vue.js", level: 80, icon: <SiVuedotjs /> },
+      { name: "Angular", level: 75, icon: <SiAngular /> },
+      { name: "Vue.js", level: 70, icon: <SiVuedotjs /> },
     ],
   },
   {
     title: "Backend & Architecture",
     icon: <Server className="w-5 h-5 text-indigo-500" />,
     skills: [
-      { name: "C# / .NET Core / ASP.NET", level: 90, icon: <SiDotnet /> },
-      { name: "API Design (REST / GraphQL)", level: 92, icon: <SiGraphql /> },
-      { name: "NestJS & Microservices", level: 90, icon: <SiNestjs /> },
+      { name: "C# / .NET Core / ASP.NET", level: 70, icon: <SiDotnet /> },
+      { name: "API Design (REST / GraphQL)", level: 80, icon: <SiGraphql /> },
+      { name: "NestJS & Microservices", level: 50, icon: <SiNestjs /> },
       { name: "Node.js / Express", level: 88, icon: <SiNodedotjs /> },
       {
         name: "Authentication & Security",
         level: 88,
         icon: <Wrench className="w-4 h-4" />,
       },
-      { name: "Python", level: 85, icon: <SiPython /> },
+      { name: "Python", level: 50, icon: <SiPython /> },
     ],
   },
   {
@@ -70,18 +70,18 @@ const CATEGORIES = [
     skills: [
       {
         name: "Clean Architecture / SOLID",
-        level: 92,
+        level: 80,
         icon: <Lightbulb className="w-4 h-4" />,
       },
-      { name: "Entity Framework / EF Core", level: 90, icon: <SiSharp /> },
+      { name: "Entity Framework / EF Core", level: 60, icon: <SiSharp /> },
       {
         name: "Domain-Driven Design (DDD)",
-        level: 88,
+        level: 80,
         icon: <Brain className="w-4 h-4" />,
       },
       {
         name: "Design Patterns",
-        level: 88,
+        level: 70,
         icon: <Code className="w-4 h-4" />,
       },
       {
@@ -97,16 +97,16 @@ const CATEGORIES = [
     skills: [
       {
         name: "SQL Server / PostgreSQL",
-        level: 90,
+        level: 70,
         icon: <Database className="w-4 h-4" />,
       },
       { name: "MongoDB", level: 88, icon: <SiMongodb /> },
       {
         name: "Git / GitHub Workflows",
-        level: 92,
+        level: 82,
         icon: <Wrench className="w-4 h-4" />,
       },
-      { name: "Agile / Scrum", level: 90, icon: <Brain className="w-4 h-4" /> },
+      { name: "Agile / Scrum", level: 70, icon: <Brain className="w-4 h-4" /> },
     ],
   },
 ];

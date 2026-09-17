@@ -85,7 +85,7 @@ const Education = () => {
                   <BookOpen className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
                   <span>
                     Specialization:{" "}
-                    <strong className="text-gray-200">
+                    <strong className="text-gray-400">
                       {item.specialization}
                     </strong>
                   </span>
