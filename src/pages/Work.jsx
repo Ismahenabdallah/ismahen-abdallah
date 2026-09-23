@@ -88,16 +88,18 @@ const EXPERIENCE_ITEMS = [
 
 const PROJECT_ITEMS = [
   {
-    title: "Smart Delivery",
+    title: "SmartDelivery",
     period: "Featured Project",
     location: "Logistics Platform",
     type: "Fullstack Project",
     tech: ["MERN Stack", "Tailwind CSS", "Sass", "Redux Toolkit", "Socket.io"],
+
     videoUrl: `${import.meta.env.BASE_URL}projects/videos/Smartdeliverydemo.mp4`,
     points: [
-      "Developed an advanced logistics management system equipped with <strong class='text-blue-500 font-semibold'>real-time order tracking</strong>.",
-      "Built an administrator analytics dashboard designed to optimize delivery performance and routing workflows.",
-      "Implemented a <strong class='text-blue-500 font-semibold'>real-time chat system</strong> for seamless communication between customers and delivery personnel.",
+      "Built a real-time delivery platform connecting clients and couriers, with <strong class='text-blue-500 font-semibold'>instant notifications</strong> to nearby couriers within a 15 km radius.",
+      "Implemented <strong class='text-blue-500 font-semibold'>live GPS tracking</strong> on an interactive map (React-Leaflet) with continuous position streaming and real-time chat per order.",
+      "Designed a modular <strong class='text-blue-500 font-semibold'>Socket.io architecture</strong> (presence, chat, tracking, notifications) with multi-tab handling and MongoDB TTL-based notification retention.",
+      "Developed an <strong class='text-blue-500 font-semibold'>admin analytics dashboard</strong> with real-time KPIs, charts (Recharts), and a live map of connected couriers.",
     ],
   },
   {
