@@ -6,11 +6,12 @@ import {
   FaCode,
   FaExternalLinkAlt,
   FaTimes,
-  FaPlay,
   FaExpand,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 
-// Data conserved exactly as defined
+// Data
 const EXPERIENCE_ITEMS = [
   {
     title:
@@ -93,8 +94,15 @@ const PROJECT_ITEMS = [
     location: "Logistics Platform",
     type: "Fullstack Project",
     tech: ["MERN Stack", "Tailwind CSS", "Sass", "Redux Toolkit", "Socket.io"],
-
     videoUrl: `${import.meta.env.BASE_URL}projects/videos/Smartdeliverydemo.mp4`,
+    images: [
+      `${import.meta.env.BASE_URL}projects/smartdelivery/vue.png`,
+      `${import.meta.env.BASE_URL}projects/smartdelivery/suivi.png`,
+      `${import.meta.env.BASE_URL}projects/smartdelivery/chat.png`,
+      `${import.meta.env.BASE_URL}projects/smartdelivery/clientInterface.png`,
+      `${import.meta.env.BASE_URL}projects/smartdelivery/card.png`,
+      `${import.meta.env.BASE_URL}projects/smartdelivery/client.png`,
+    ],
     points: [
       "Built a real-time delivery platform connecting clients and couriers, with <strong class='text-blue-500 font-semibold'>instant notifications</strong> to nearby couriers within a 15 km radius.",
       "Implemented <strong class='text-blue-500 font-semibold'>live GPS tracking</strong> on an interactive map (React-Leaflet) with continuous position streaming and real-time chat per order.",
@@ -127,10 +135,96 @@ const PROJECT_ITEMS = [
   },
 ];
 
+/* ================= 3 TSAWER VISIBLES SLIDER COMPONENT (1 FIL MOBILE) ================= */
+const MultiImageSlider = ({ images, onExpandImage }) => {
+  const [startIndex, setStartIndex] = useState(0);
+
+  if (!images || images.length === 0) return null;
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    setStartIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNext = (e) => {
+    e.stopPropagation();
+    setStartIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  // N-gettiwi 3 tsawer l-kibar, w fil mobile el CSS bech ybiyen كان wa3da (grid-cols-1 md:grid-cols-3)
+  const visibleImages = [];
+  for (let i = 0; i < 3; i++) {
+    const idx = (startIndex + i) % images.length;
+    visibleImages.push({ url: images[idx], realIndex: idx });
+  }
+
+  return (
+    <div className="relative w-full bg-slate-950/80 p-3 rounded-t-3xl border-b border-white/10 group/slider">
+      {/* Counter Badge */}
+      <div className="flex justify-between items-center mb-2 px-1">
+        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+          Previews ({startIndex + 1} / {images.length})
+        </span>
+        <span className="text-[10px] text-blue-400 font-medium">
+          Click any image for full-screen preview
+        </span>
+      </div>
+
+      {/* Grid: 1 fil mobile (grid-cols-1) w 3 fil écranat el kibar (md:grid-cols-3) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {visibleImages.map((imgObj, idx) => (
+          <motion.div
+            key={`${imgObj.realIndex}-${idx}`}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => onExpandImage(imgObj.url)}
+            /* hidden md:block bech fil mobile yeb3edh ken el taswira el loula بركة */
+            className={`relative h-48 sm:h-52 md:h-44 rounded-xl overflow-hidden border border-white/10 bg-black/60 cursor-pointer group/img hover:border-blue-500/50 transition-all duration-300 ${
+              idx > 0 ? "hidden md:block" : "block"
+            }`}
+          >
+            <img
+              src={imgObj.url}
+              alt={`Preview ${imgObj.realIndex + 1}`}
+              className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300 opacity-90 group-hover/img:opacity-100"
+            />
+            <div className="absolute inset-0 bg-black/30 group-hover/img:bg-transparent transition-colors duration-300" />
+            <div className="absolute bottom-2 right-2 p-1.5 rounded-md bg-black/60 backdrop-blur-md text-white opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 text-xs">
+              <FaExpand />
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Navigation Buttons (Liyes w Limin) */}
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={handlePrev}
+            className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/80 hover:bg-blue-600 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-lg hover:scale-110"
+            aria-label="Previous"
+          >
+            <FaChevronLeft className="text-xs" />
+          </button>
+          <button
+            onClick={handleNext}
+            className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/80 hover:bg-blue-600 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-lg hover:scale-110"
+            aria-label="Next"
+          >
+            <FaChevronRight className="text-xs" />
+          </button>
+        </>
+      )}
+    </div>
+  );
+};
+
 const Work = () => {
   const { theme } = useTheme() || { theme: "dark" };
   const isDark = theme === "dark";
   const [openVideo, setOpenVideo] = useState(null);
+  const [expandedImage, setExpandedImage] = useState(null);
 
   const containerBg = isDark ? "bg-[#080808]" : "bg-slate-50";
   const textPrimary = isDark ? "text-gray-400" : "text-gray-600";
@@ -143,7 +237,7 @@ const Work = () => {
     : "border-slate-200 hover:border-blue-500/40";
   const headingColor = isDark ? "text-white" : "text-slate-900";
 
-  /* ================= EXPERIENCE CARD (unchanged) ================= */
+  /* ================= EXPERIENCE CARD ================= */
   const renderExperienceCard = (item, index) => (
     <motion.div
       key={index}
@@ -226,7 +320,7 @@ const Work = () => {
     </motion.div>
   );
 
-  /* ================= PROJECT CARD (with video preview) ================= */
+  /* ================= PROJECT CARD ================= */
   const renderProjectCard = (item, index) => (
     <motion.div
       key={index}
@@ -237,59 +331,18 @@ const Work = () => {
       whileHover={{ y: -4 }}
       className={`group relative rounded-3xl border ${borderColor} ${cardBg} transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden backdrop-blur-sm`}
     >
-      {/* Top indicator bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
-      {/* ===== VIDEO PREVIEW SECTION ===== */}
-      {item.videoUrl && (
-        <div
-          onClick={() => setOpenVideo(item.videoUrl)}
-          className="relative w-full aspect-video overflow-hidden cursor-pointer rounded-t-3xl bg-black"
-        >
-          {/* Video element — hover just scales, no autoplay */}
-          <video
-            src={item.videoUrl}
-            muted
-            playsInline
-            preload="metadata"
-            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-          />
-
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40 group-hover:from-black/60 transition-all duration-500" />
-
-          {/* Play button — center */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/10 backdrop-blur-md border-2 border-white/30 flex items-center justify-center group-hover:bg-blue-500 group-hover:border-blue-500 transition-all duration-300 shadow-2xl"
-            >
-              <FaPlay className="text-white text-lg sm:text-xl ml-1" />
-            </motion.div>
-          </div>
-
-          {/* Top-right badge */}
-          <div className="absolute top-3 right-3 flex items-center gap-2">
-            <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full bg-red-500/90 text-white backdrop-blur-sm flex items-center gap-1.5 shadow-lg">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-              Demo
-            </span>
-          </div>
-
-          {/* Bottom-left label */}
-          <div className="absolute bottom-3 left-3 flex items-center gap-2 text-white">
-            <FaExpand className="text-xs opacity-80" />
-            <span className="text-[11px] font-semibold opacity-90">
-              Click to watch full demo
-            </span>
-          </div>
-        </div>
+      {/* 3 TSAWER VISIBLES SECTION */}
+      {item.images && item.images.length > 0 && (
+        <MultiImageSlider
+          images={item.images}
+          onExpandImage={(imgSrc) => setExpandedImage(imgSrc)}
+        />
       )}
 
-      {/* ===== CONTENT SECTION ===== */}
+      {/* CONTENT SECTION */}
       <div className="p-6 md:p-8 relative z-10">
-        {/* Header */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <span className="text-[10px] text-cyan-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
             {item.type}
@@ -311,11 +364,10 @@ const Work = () => {
             </p>
           </div>
 
-          {/* Watch Demo Button */}
           {item.videoUrl && (
             <button
               onClick={() => setOpenVideo(item.videoUrl)}
-              className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/30 hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all duration-300 shrink-0 self-start"
+              className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/30 hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all duration-300 shrink-0 self-start cursor-pointer"
             >
               <FaExternalLinkAlt className="text-[10px]" />
               Watch Demo
@@ -323,9 +375,7 @@ const Work = () => {
           )}
         </div>
 
-        {/* Grid: Points + Tech */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mt-6">
-          {/* Points */}
           <div className="lg:col-span-8">
             <ul className="space-y-3">
               {item.points.map((pt, i) => (
@@ -345,7 +395,6 @@ const Work = () => {
             </ul>
           </div>
 
-          {/* Tech Stack */}
           <div
             className={`lg:col-span-4 lg:border-l ${
               isDark ? "lg:border-white/10" : "lg:border-slate-200"
@@ -379,12 +428,10 @@ const Work = () => {
       id="projects"
       className={`${containerBg} min-h-screen py-16 sm:py-24 transition-colors duration-500 relative overflow-hidden`}
     >
-      {/* Background decorative gradients */}
       <div className="absolute top-40 -left-40 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-40 -right-40 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
-        {/* Header */}
         <div className="text-center mb-16 md:mb-20">
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
@@ -403,7 +450,7 @@ const Work = () => {
           </p>
         </div>
 
-        {/* === SECTION 1: EXPERIENCE === */}
+        {/* SECTION 1: EXPERIENCE */}
         <div className="mb-20">
           <div className="flex items-center gap-3 mb-8">
             <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
@@ -428,7 +475,7 @@ const Work = () => {
           </div>
         </div>
 
-        {/* === SEPARATOR === */}
+        {/* SEPARATOR */}
         <div className="relative my-20 flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
             <div
@@ -448,7 +495,7 @@ const Work = () => {
           </div>
         </div>
 
-        {/* === SECTION 2: PROJECTS === */}
+        {/* SECTION 2: PROJECTS */}
         <div>
           <div className="flex items-center gap-3 mb-8">
             <div className="p-3 rounded-2xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20">
@@ -472,7 +519,7 @@ const Work = () => {
         </div>
       </div>
 
-      {/* === VIDEO MODAL === */}
+      {/* VIDEO MODAL */}
       <AnimatePresence>
         {openVideo && (
           <motion.div
@@ -481,31 +528,28 @@ const Work = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
             onClick={() => setOpenVideo(null)}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4"
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 cursor-pointer"
           >
-            {/* Close button */}
             <motion.button
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ delay: 0.1 }}
               onClick={() => setOpenVideo(null)}
-              className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-red-500 hover:scale-110 transition-all duration-300 flex items-center justify-center text-base font-bold border border-white/20"
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-red-500 hover:scale-110 transition-all duration-300 flex items-center justify-center text-base font-bold border border-white/20 cursor-pointer"
               aria-label="Close video"
             >
               <FaTimes />
             </motion.button>
 
-            {/* Modal content */}
             <motion.div
               initial={{ scale: 0.85, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.85, opacity: 0, y: 20 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-5xl aspect-video rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(59,130,246,0.3)] bg-black"
+              className="relative w-full max-w-5xl aspect-video rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_80px_rgba(59,130,246,0.3)] bg-black cursor-default"
             >
-              {/* Glow effect */}
               <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 rounded-2xl md:rounded-3xl opacity-30 blur-lg -z-10" />
 
               <video
@@ -517,6 +561,42 @@ const Work = () => {
               >
                 Your browser does not support the video tag.
               </video>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* IMAGE FULLSCREEN MODAL */}
+      <AnimatePresence>
+        {expandedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setExpandedImage(null)}
+            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 cursor-pointer"
+          >
+            <button
+              onClick={() => setExpandedImage(null)}
+              className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-red-500 hover:scale-110 transition-all duration-300 flex items-center justify-center text-base font-bold border border-white/20 cursor-pointer"
+              aria-label="Close image"
+            >
+              <FaTimes />
+            </button>
+
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="max-w-6xl max-h-[90vh] overflow-hidden rounded-2xl border border-white/10 shadow-2xl cursor-default"
+            >
+              <img
+                src={expandedImage}
+                alt="Enlarged preview"
+                className="w-full h-full object-contain max-h-[85vh]"
+              />
             </motion.div>
           </motion.div>
         )}
