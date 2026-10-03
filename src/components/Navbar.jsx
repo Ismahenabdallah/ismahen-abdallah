@@ -70,7 +70,7 @@ export default function Navbar() {
             : "bg-transparent py-5 border-transparent"
         }`}
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-6">
+      <div className="max-w-8xl mx-auto flex justify-between items-center px-6">
         {/* --- LOGO SECTION (El Motion elli 3jebek) --- */}
         <a
           href="#home"

@@ -15,7 +15,7 @@ const Education = () => {
         isDark ? "bg-[#080808] text-white" : "bg-slate-50 text-slate-900"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-5 md:px-8">
+      <div className="max-w-8xl mx-auto px-5 md:px-8">
         {/* Title Section */}
         <div className="text-center mb-6 md:mb-10">
           <motion.h1

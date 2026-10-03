@@ -28,7 +28,7 @@ const Footer = () => {
           : "bg-white border-blue-50 text-gray-600"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-8xl mx-auto px-6 py-12">
         {/* Top Section: Brand & Navigation */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-10">
           <div className="text-center md:text-left">

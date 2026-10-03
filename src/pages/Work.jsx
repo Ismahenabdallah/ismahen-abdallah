@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../context/Theme/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa";
 import SeparatorWithoutLabel from "../components/SeperatorWithoutLabel";
 
-// Data
+// ================= DATA =================
 const EXPERIENCE_ITEMS = [
   {
     title:
@@ -136,86 +136,135 @@ const PROJECT_ITEMS = [
   },
 ];
 
-/* ================= 3 TSAWER VISIBLES SLIDER COMPONENT (1 FIL MOBILE) ================= */
+/* ================= MULTI IMAGE SLIDER — PROFESSIONAL =================
+   Keeps the original concept: 3 images side-by-side (1 on mobile).
+   But polished:
+   - Header bar: "Preview" label with pulse dot + counter + nav buttons
+   - Aspect-ratio based images (16/10) instead of fixed height -> cleaner proportions
+   - Subtle number badge top-left on each image
+   - Expand icon slides up from bottom-right on hover
+   - Dots indicator at the bottom (elongated active dot)
+   - Images preloaded -> zero flash when navigating
+*/
 const MultiImageSlider = ({ images, onExpandImage }) => {
   const [startIndex, setStartIndex] = useState(0);
 
+  // Preload all images once so navigation is instant (no black flash)
+  useEffect(() => {
+    if (!images || images.length === 0) return;
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [images]);
+
   if (!images || images.length === 0) return null;
 
-  const handlePrev = (e) => {
-    e.stopPropagation();
-    setStartIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
+  const total = images.length;
 
-  const handleNext = (e) => {
-    e.stopPropagation();
-    setStartIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
+  const goPrev = () => setStartIndex((i) => (i === 0 ? total - 1 : i - 1));
+  const goNext = () => setStartIndex((i) => (i === total - 1 ? 0 : i + 1));
 
-  // N-gettiwi 3 tsawer l-kibar, w fil mobile el CSS bech ybiyen كان wa3da (grid-cols-1 md:grid-cols-3)
-  const visibleImages = [];
-  for (let i = 0; i < 3; i++) {
-    const idx = (startIndex + i) % images.length;
-    visibleImages.push({ url: images[idx], realIndex: idx });
+  // Build the 3 visible slots (or fewer if total < 3)
+  const visible = [];
+  for (let i = 0; i < Math.min(3, total); i++) {
+    const idx = (startIndex + i) % total;
+    visible.push({ url: images[idx], realIndex: idx });
   }
 
   return (
-    <div className="relative w-full bg-slate-950/80 p-3 rounded-t-3xl border-b border-white/10 group/slider">
-      {/* Counter Badge */}
-      <div className="flex justify-between items-center mb-2 px-1">
-        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-          Previews ({startIndex + 1} / {images.length})
-        </span>
-        {/* <span className="text-[10px] text-blue-400 font-medium">
-          Click any image for full-screen preview
-        </span> */}
+    <div className="relative w-full rounded-t-3xl bg-gradient-to-b from-slate-950 to-slate-950/60 border-b border-white/10 p-4 sm:p-5">
+      {/* ===== Header bar: label + counter + nav ===== */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">
+            Preview
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {/* Counter */}
+          <span className="text-[10px] font-bold text-gray-400 tabular-nums tracking-widest">
+            <span className="text-white">
+              {String(startIndex + 1).padStart(2, "0")}
+            </span>
+            <span className="mx-1 text-gray-600">/</span>
+            {String(total).padStart(2, "0")}
+          </span>
+
+          {/* Nav buttons */}
+          {total > 1 && (
+            <div className="flex items-center gap-1">
+              <button
+                onClick={goPrev}
+                className="w-7 h-7 rounded-lg border border-white/10 bg-white/5 text-gray-300 hover:bg-blue-500 hover:border-blue-500 hover:text-white transition-all duration-200 flex items-center justify-center cursor-pointer"
+                aria-label="Previous"
+              >
+                <FaChevronLeft className="text-[10px]" />
+              </button>
+              <button
+                onClick={goNext}
+                className="w-7 h-7 rounded-lg border border-white/10 bg-white/5 text-gray-300 hover:bg-blue-500 hover:border-blue-500 hover:text-white transition-all duration-200 flex items-center justify-center cursor-pointer"
+                aria-label="Next"
+              >
+                <FaChevronRight className="text-[10px]" />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Grid: 1 fil mobile (grid-cols-1) w 3 fil écranat el kibar (md:grid-cols-3) */}
+      {/* ===== 3 images side by side (1 on mobile) ===== */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {visibleImages.map((imgObj, idx) => (
-          <motion.div
-            key={`${imgObj.realIndex}-${idx}`}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25 }}
+        {visible.map((imgObj, i) => (
+          <button
+            key={i} /* stable key -> no re-mount, no flash */
             onClick={() => onExpandImage(imgObj.url)}
-            /* hidden md:block bech fil mobile yeb3edh ken el taswira el loula بركة */
-            className={`relative h-48 sm:h-52 md:h-44 rounded-xl overflow-hidden border border-white/10 bg-black/60 cursor-pointer group/img hover:border-blue-500/50 transition-all duration-300 ${
-              idx > 0 ? "hidden md:block" : "block"
+            className={`group/img relative aspect-[16/10] rounded-xl overflow-hidden border border-white/10 bg-black cursor-pointer transition-all duration-300 hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-500/20 ${
+              i > 0 ? "hidden md:block" : "block"
             }`}
           >
+            {/* Plain img, no key, no motion -> instant swap, no flash */}
             <img
               src={imgObj.url}
               alt={`Preview ${imgObj.realIndex + 1}`}
-              className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300 opacity-90 group-hover/img:opacity-100"
+              loading="eager"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-[1.04]"
             />
-            <div className="absolute inset-0 bg-black/30 group-hover/img:bg-transparent transition-colors duration-300" />
-            <div className="absolute bottom-2 right-2 p-1.5 rounded-md bg-black/60 backdrop-blur-md text-white opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 text-xs">
+
+            {/* Subtle dark gradient at the bottom */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover/img:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+            {/* Number badge — top-left */}
+            <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-bold text-white/90 tabular-nums">
+              {String(imgObj.realIndex + 1).padStart(2, "0")}
+            </div>
+
+            {/* Expand icon — slides up from bottom-right on hover */}
+            <div className="absolute bottom-2 right-2 w-8 h-8 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center opacity-0 translate-y-1 group-hover/img:opacity-100 group-hover/img:translate-y-0 transition-all duration-300 text-[10px]">
               <FaExpand />
             </div>
-          </motion.div>
+          </button>
         ))}
       </div>
 
-      {/* Navigation Buttons (Liyes w Limin) */}
-      {images.length > 1 && (
-        <>
-          <button
-            onClick={handlePrev}
-            className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/80 hover:bg-blue-600 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-lg hover:scale-110"
-            aria-label="Previous"
-          >
-            <FaChevronLeft className="text-xs" />
-          </button>
-          <button
-            onClick={handleNext}
-            className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-black/80 hover:bg-blue-600 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 cursor-pointer shadow-lg hover:scale-110"
-            aria-label="Next"
-          >
-            <FaChevronRight className="text-xs" />
-          </button>
-        </>
+      {/* ===== Dots indicator ===== */}
+      {total > 1 && (
+        <div className="mt-4 flex items-center justify-center gap-1.5">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setStartIndex(i)}
+              aria-label={`Go to image ${i + 1}`}
+              className={`h-1 rounded-full transition-all duration-300 cursor-pointer ${
+                i === startIndex
+                  ? "w-6 bg-blue-500"
+                  : "w-1.5 bg-white/20 hover:bg-white/40"
+              }`}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
@@ -227,6 +276,7 @@ const Work = () => {
   const [openVideo, setOpenVideo] = useState(null);
   const [expandedImage, setExpandedImage] = useState(null);
 
+  // Theme-based styles
   const containerBg = isDark ? "bg-[#080808]" : "bg-slate-50";
   const textPrimary = isDark ? "text-gray-400" : "text-gray-600";
   const cardBg = isDark
@@ -251,7 +301,6 @@ const Work = () => {
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column */}
         <div className="lg:col-span-5 flex flex-col justify-between h-full">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -274,7 +323,6 @@ const Work = () => {
             </p>
           </div>
 
-          {/* Tech Stack Pills */}
           <div className="pt-2">
             <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-2">
               Technologies Used
@@ -296,7 +344,6 @@ const Work = () => {
           </div>
         </div>
 
-        {/* Right Column */}
         <div
           className={`lg:col-span-7 lg:border-l ${
             isDark ? "lg:border-white/10" : "lg:border-slate-200"
@@ -334,7 +381,6 @@ const Work = () => {
     >
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
-      {/* 3 TSAWER VISIBLES SECTION */}
       {item.images && item.images.length > 0 && (
         <MultiImageSlider
           images={item.images}
@@ -342,7 +388,6 @@ const Work = () => {
         />
       )}
 
-      {/* CONTENT SECTION */}
       <div className="p-6 md:p-8 relative z-10">
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <span className="text-[10px] text-cyan-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
@@ -432,7 +477,8 @@ const Work = () => {
       <div className="absolute top-40 -left-40 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-40 -right-40 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+        {/* ================= PAGE HEADER ================= */}
         <div className="text-center mb-16 md:mb-20">
           <motion.h1
             initial={{ opacity: 0, y: 15 }}
@@ -451,7 +497,7 @@ const Work = () => {
           </p>
         </div>
 
-        {/* SECTION 1: EXPERIENCE */}
+        {/* ================= SECTION 1: WORK EXPERIENCE ================= */}
         <div className="mb-20">
           <div className="flex items-center gap-3 mb-8">
             <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
@@ -476,7 +522,7 @@ const Work = () => {
           </div>
         </div>
 
-        {/* SEPARATOR */}
+        {/* ================= SEPARATOR ================= */}
         <div className="relative my-20 flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
             <div
@@ -496,7 +542,7 @@ const Work = () => {
           </div>
         </div>
 
-        {/* SECTION 2: PROJECTS */}
+        {/* ================= SECTION 2: PROJECTS ================= */}
         <div>
           <div className="flex items-center gap-3 mb-8">
             <div className="p-3 rounded-2xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20">
@@ -520,7 +566,7 @@ const Work = () => {
         </div>
       </div>
 
-      {/* VIDEO MODAL */}
+      {/* ================= VIDEO MODAL ================= */}
       <AnimatePresence>
         {openVideo && (
           <motion.div
@@ -567,41 +613,35 @@ const Work = () => {
         )}
       </AnimatePresence>
 
-      {/* IMAGE FULLSCREEN MODAL */}
-      <AnimatePresence>
-        {expandedImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={() => setExpandedImage(null)}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 cursor-pointer"
+      {/* ================= IMAGE FULLSCREEN MODAL — SUPER BASIC ================= */}
+      {expandedImage && (
+        <div
+          onClick={() => setExpandedImage(null)}
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 cursor-pointer"
+        >
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setExpandedImage(null);
+            }}
+            className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-red-500 transition-colors duration-200 flex items-center justify-center text-base font-bold border border-white/20 cursor-pointer"
+            aria-label="Close image"
           >
-            <button
-              onClick={() => setExpandedImage(null)}
-              className="absolute top-4 right-4 md:top-6 md:right-6 z-10 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md text-white hover:bg-red-500 hover:scale-110 transition-all duration-300 flex items-center justify-center text-base font-bold border border-white/20 cursor-pointer"
-              aria-label="Close image"
-            >
-              <FaTimes />
-            </button>
+            <FaTimes />
+          </button>
 
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="max-w-6xl max-h-[90vh] overflow-hidden rounded-2xl border border-white/10 shadow-2xl cursor-default"
-            >
-              <img
-                src={expandedImage}
-                alt="Enlarged preview"
-                className="w-full h-full object-contain max-h-[85vh]"
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center justify-center max-w-8xl max-h-[90vh] cursor-default"
+          >
+            <img
+              src={expandedImage}
+              alt="Enlarged preview"
+              className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-lg"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

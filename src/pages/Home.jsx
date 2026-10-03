@@ -69,7 +69,7 @@ const Home = () => {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-24 md:pt-32 pb-20 relative z-10">
+      <div className="max-w-8xl mx-auto px-6 pt-24 md:pt-32 pb-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* --- LEFT SIDE: HERO TEXT --- */}
           <motion.div

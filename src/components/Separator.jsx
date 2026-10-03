@@ -7,8 +7,8 @@ const Separator = ({ label = "Featured Systems" }) => {
   const isDark = theme === "dark";
 
   return (
-    /* ✅ max-w-7xl mx-auto px-6 matches the Home page container for perfect alignment */
-    <div className="w-full max-w-7xl mx-auto px-6">
+    /* ✅ max-w-8xl mx-auto px-6 matches the Home page container for perfect alignment */
+    <div className="w-full max-w-8xl mx-auto px-6">
       <div className="relative my-16 md:my-20 flex items-center justify-center">
         {/* Horizontal line */}
         <div className="absolute inset-0 flex items-center">
