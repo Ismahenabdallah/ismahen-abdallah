@@ -84,9 +84,9 @@ const Home = () => {
                 Abdallah
               </span>
             </h1>
-
+            {/* mb-10 max-w-xl mx-auto lg:mx-0 */}
             <p
-              className={`text-base md:text-lg mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed ${
+              className={`text-base md:text-lg mb-10 max-w-full mx-auto lg:mx-0 leading-loose ${
                 isDark ? "text-gray-300" : "text-gray-700"
               }`}
             >
