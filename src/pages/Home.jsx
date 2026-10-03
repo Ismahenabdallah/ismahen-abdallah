@@ -1,8 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/Theme/ThemeContext";
-import { FaBrain, FaTerminal } from "react-icons/fa";
-import { SiReact, SiAngular, SiVuedotjs, SiDotnet } from "react-icons/si";
+import { FaBrain, FaCode, FaTerminal } from "react-icons/fa";
+import {
+  SiReact,
+  SiAngular,
+  SiVuedotjs,
+  SiDotnet,
+  SiNextdotjs,
+} from "react-icons/si";
+import Separator from "../components/Separator";
+import SeparatorWithoutLabel from "../components/SeperatorWithoutLabel";
 
 const Home = () => {
   const { theme } = useTheme();
@@ -30,6 +38,11 @@ const Home = () => {
       bg: "hover:bg-[#4FC08D]/10 hover:border-[#4FC08D]/40",
     },
     {
+      title: "Next.js",
+      icon: <SiNextdotjs className={isDark ? "text-white" : "text-black"} />,
+      bg: "hover:bg-slate-500/10 hover:border-slate-500/40",
+    },
+    {
       title: "AI & ML Integration",
       icon: <FaBrain className="text-purple-500" />,
       bg: "hover:bg-purple-500/10 hover:border-purple-500/40",
@@ -38,7 +51,7 @@ const Home = () => {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-500 overflow-hidden relative ${
+      className={` transition-colors duration-500 overflow-hidden relative ${
         isDark ? "bg-[#080808] text-white" : "bg-slate-50 text-slate-900"
       }`}
     >
@@ -72,7 +85,6 @@ const Home = () => {
               </span>
             </h1>
 
-            {/* Direct & Impactful Bio Summary */}
             <p
               className={`text-base md:text-lg mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed ${
                 isDark ? "text-gray-300" : "text-gray-700"
@@ -144,7 +156,7 @@ const Home = () => {
               </div>
             </motion.div>
 
-            {/* Row 1: First 3 Tech Stack Cards (2 columns each in a 6-col grid) */}
+            {/* Row 1: First 3 Tech Stack Cards */}
             {techStacks.slice(0, 3).map((tech, i) => (
               <motion.div
                 key={i}
@@ -166,12 +178,12 @@ const Home = () => {
               </motion.div>
             ))}
 
-            {/* Row 2: Last 2 Tech Stack Cards (3 columns each in a 6-col grid) */}
-            {techStacks.slice(3, 5).map((tech, i) => (
+            {/* Row 2: Last 3 Tech Stack Cards (including Next.js) */}
+            {techStacks.slice(3, 6).map((tech, i) => (
               <motion.div
                 key={i + 3}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className={`col-span-1 sm:col-span-3 p-4 md:p-5 rounded-[1.5rem] md:rounded-[2rem] border transition-all cursor-default flex items-center gap-4 ${
+                className={`col-span-1 sm:col-span-2 p-4 md:p-5 rounded-[1.5rem] md:rounded-[2rem] border transition-all cursor-default flex flex-col justify-between ${
                   tech.bg
                 } ${
                   isDark
@@ -179,7 +191,9 @@ const Home = () => {
                     : "bg-white border-slate-200 shadow-sm"
                 }`}
               >
-                <div className="text-2xl md:text-3xl shrink-0">{tech.icon}</div>
+                <div className="text-2xl md:text-3xl mb-2 md:mb-3">
+                  {tech.icon}
+                </div>
                 <h3 className="font-bold text-xs md:text-sm tracking-tight">
                   {tech.title}
                 </h3>
@@ -188,6 +202,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <SeparatorWithoutLabel />
     </div>
   );
 };

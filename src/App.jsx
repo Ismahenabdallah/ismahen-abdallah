@@ -29,7 +29,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className="bg-[#050505] min-h-screen">
+      <div className=" min-h-screen">
         <AnimatePresence mode="wait">
           {isLoading ? (
             <LoadingPage key="loader" />

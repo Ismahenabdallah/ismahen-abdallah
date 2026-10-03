@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+/* Dark mode b class (mch media query) — Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html.dark,
+html.dark body {
+  background-color: #080808;
+}
+
+html:not(.dark),
+html:not(.dark) body {
+  background-color: #f8fafc;
+}
+
+body {
+  overflow-x: hidden;
+}

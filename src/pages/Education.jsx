@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useTheme } from "../context/Theme/ThemeContext";
 import { GraduationCap, Calendar, BookOpen } from "lucide-react";
 import { EDUCATION_DATA } from "../data/portfolioData";
+import SeparatorWithoutLabel from "../components/SeperatorWithoutLabel";
 
 const Education = () => {
   const { theme } = useTheme() || { theme: "dark" };
@@ -95,6 +96,7 @@ const Education = () => {
           ))}
         </div>
       </div>
+      <SeparatorWithoutLabel />
     </section>
   );
 };

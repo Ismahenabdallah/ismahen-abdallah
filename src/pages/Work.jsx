@@ -10,6 +10,7 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
+import SeparatorWithoutLabel from "../components/SeperatorWithoutLabel";
 
 // Data
 const EXPERIENCE_ITEMS = [
@@ -165,9 +166,9 @@ const MultiImageSlider = ({ images, onExpandImage }) => {
         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
           Previews ({startIndex + 1} / {images.length})
         </span>
-        <span className="text-[10px] text-blue-400 font-medium">
+        {/* <span className="text-[10px] text-blue-400 font-medium">
           Click any image for full-screen preview
-        </span>
+        </span> */}
       </div>
 
       {/* Grid: 1 fil mobile (grid-cols-1) w 3 fil écranat el kibar (md:grid-cols-3) */}

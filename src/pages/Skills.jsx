@@ -26,6 +26,7 @@ import {
   SiDotnet,
   SiSharp, // تم تصحيح الاسم هنا
 } from "react-icons/si";
+import SeparatorWithoutLabel from "../components/SeperatorWithoutLabel";
 
 const CATEGORIES = [
   {
@@ -274,6 +275,7 @@ const Skills = () => {
           ))}
         </div>
       </div>
+      <SeparatorWithoutLabel />
     </section>
   );
 };
