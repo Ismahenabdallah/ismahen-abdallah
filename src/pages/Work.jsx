@@ -10,7 +10,6 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
-import SeparatorWithoutLabel from "../components/SeperatorWithoutLabel";
 
 // ================= DATA =================
 const EXPERIENCE_ITEMS = [
@@ -96,13 +95,43 @@ const PROJECT_ITEMS = [
     type: "Fullstack Project",
     tech: ["MERN Stack", "Tailwind CSS", "Sass", "Redux Toolkit", "Socket.io"],
     videoUrl: `${import.meta.env.BASE_URL}projects/videos/Smartdeliverydemo.mp4`,
-    images: [
-      `${import.meta.env.BASE_URL}projects/smartdelivery/vue.png`,
-      `${import.meta.env.BASE_URL}projects/smartdelivery/suivi.png`,
-      `${import.meta.env.BASE_URL}projects/smartdelivery/chat.png`,
-      `${import.meta.env.BASE_URL}projects/smartdelivery/clientInterface.png`,
-      `${import.meta.env.BASE_URL}projects/smartdelivery/card.png`,
-      `${import.meta.env.BASE_URL}projects/smartdelivery/client.png`,
+    /* ============ ROLES (categorized images) ============
+       ⚠️ ADAPT THE MAPPING BELOW — just move image paths
+       between the arrays so they match the real role.
+    */
+    roles: [
+      {
+        id: "client",
+        label: "Client",
+        images: [
+          `${import.meta.env.BASE_URL}projects/smartdelivery/client/client_1.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/client/client_2.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/client/client_3.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/client/client_4.png`,
+        ],
+      },
+      {
+        id: "admin",
+        label: "Admin",
+        images: [
+          `${import.meta.env.BASE_URL}projects/smartdelivery/admin/admin_1.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/admin/admin_1.1.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/admin/admin_1.2.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/admin/admin_3.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/admin/admin_4.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/admin/admin_5.png`,
+        ],
+      },
+      {
+        id: "driver",
+        label: "Driver",
+        images: [
+          `${import.meta.env.BASE_URL}projects/smartdelivery/driver/driver_1.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/driver/driver_2.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/driver/driver_3.png`,
+          `${import.meta.env.BASE_URL}projects/smartdelivery/driver/driver_4.png`,
+        ],
+      },
     ],
     points: [
       "Built a real-time delivery platform connecting clients and couriers, with <strong class='text-blue-500 font-semibold'>instant notifications</strong> to nearby couriers within a 15 km radius.",
@@ -136,55 +165,94 @@ const PROJECT_ITEMS = [
   },
 ];
 
-/* ================= MULTI IMAGE SLIDER — PROFESSIONAL =================
-   Keeps the original concept: 3 images side-by-side (1 on mobile).
-   But polished:
-   - Header bar: "Preview" label with pulse dot + counter + nav buttons
-   - Aspect-ratio based images (16/10) instead of fixed height -> cleaner proportions
-   - Subtle number badge top-left on each image
-   - Expand icon slides up from bottom-right on hover
-   - Dots indicator at the bottom (elongated active dot)
-   - Images preloaded -> zero flash when navigating
+/* ================= MULTI IMAGE SLIDER — PROFESSIONAL (fixed layout with roles) =================
+   - Role tabs (Client/Admin/Driver) in the header on the left
+   - Counter + nav buttons on the right
+   - ALWAYS 3 slots, ALWAYS grid-cols-3 on md+ -> layout never shifts
+   - When a role has fewer than 3 images, empty slots render as invisible
+     placeholders (same aspect ratio) so nothing grows/shrinks
+   - Preloaded images -> zero flash
 */
-const MultiImageSlider = ({ images, onExpandImage }) => {
+const MultiImageSlider = ({ images, roles, onExpandImage }) => {
+  const hasRoles = Array.isArray(roles) && roles.length > 0;
+  const [activeRoleId, setActiveRoleId] = useState(
+    hasRoles ? roles[0].id : null,
+  );
   const [startIndex, setStartIndex] = useState(0);
 
-  // Preload all images once so navigation is instant (no black flash)
+  // Resolve current image set
+  const currentImages = hasRoles
+    ? roles.find((r) => r.id === activeRoleId)?.images || []
+    : images || [];
+
+  // Reset slide index when switching role
   useEffect(() => {
-    if (!images || images.length === 0) return;
-    images.forEach((src) => {
+    setStartIndex(0);
+  }, [activeRoleId]);
+
+  // Preload current images -> zero flash
+  useEffect(() => {
+    if (!currentImages || currentImages.length === 0) return;
+    currentImages.forEach((src) => {
       const img = new Image();
       img.src = src;
     });
-  }, [images]);
+  }, [currentImages]);
 
-  if (!images || images.length === 0) return null;
+  if (!currentImages || currentImages.length === 0) return null;
 
-  const total = images.length;
+  const total = currentImages.length;
 
   const goPrev = () => setStartIndex((i) => (i === 0 ? total - 1 : i - 1));
   const goNext = () => setStartIndex((i) => (i === total - 1 ? 0 : i + 1));
 
-  // Build the 3 visible slots (or fewer if total < 3)
-  const visible = [];
-  for (let i = 0; i < Math.min(3, total); i++) {
-    const idx = (startIndex + i) % total;
-    visible.push({ url: images[idx], realIndex: idx });
+  // Build exactly 3 slots (fixed). Extra slots are null placeholders.
+  const SLOTS = 3;
+  const slots = [];
+  for (let i = 0; i < SLOTS; i++) {
+    if (i < total) {
+      const idx = (startIndex + i) % total;
+      slots.push({ url: currentImages[idx], realIndex: idx });
+    } else {
+      slots.push(null); // invisible placeholder -> keeps grid stable
+    }
   }
 
   return (
     <div className="relative w-full rounded-t-3xl bg-gradient-to-b from-slate-950 to-slate-950/60 border-b border-white/10 p-4 sm:p-5">
-      {/* ===== Header bar: label + counter + nav ===== */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">
-            Preview
-          </span>
-        </div>
+      {/* ===== Header bar: role tabs + counter + nav ===== */}
+      <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
+        {/* Left: role tabs OR "Preview" label */}
+        {hasRoles ? (
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-white/5 border border-white/10">
+            {roles.map((role) => {
+              const active = role.id === activeRoleId;
+              return (
+                <button
+                  key={role.id}
+                  onClick={() => setActiveRoleId(role.id)}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                    active
+                      ? "bg-blue-500 text-white shadow-md shadow-blue-500/30"
+                      : "text-gray-400 hover:text-white"
+                  }`}
+                >
+                  {role.label}
+                </button>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-400">
+              Preview
+            </span>
+          </div>
+        )}
 
+        {/* Right: counter + nav */}
         <div className="flex items-center gap-3">
-          {/* Counter */}
           <span className="text-[10px] font-bold text-gray-400 tabular-nums tracking-widest">
             <span className="text-white">
               {String(startIndex + 1).padStart(2, "0")}
@@ -193,7 +261,6 @@ const MultiImageSlider = ({ images, onExpandImage }) => {
             {String(total).padStart(2, "0")}
           </span>
 
-          {/* Nav buttons */}
           {total > 1 && (
             <div className="flex items-center gap-1">
               <button
@@ -215,44 +282,59 @@ const MultiImageSlider = ({ images, onExpandImage }) => {
         </div>
       </div>
 
-      {/* ===== 3 images side by side (1 on mobile) ===== */}
+      {/* ===== Image grid — ALWAYS 3 columns on md+ (never shifts) ===== */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {visible.map((imgObj, i) => (
-          <button
-            key={i} /* stable key -> no re-mount, no flash */
-            onClick={() => onExpandImage(imgObj.url)}
-            className={`group/img relative aspect-[16/10] rounded-xl overflow-hidden border border-white/10 bg-black cursor-pointer transition-all duration-300 hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-500/20 ${
-              i > 0 ? "hidden md:block" : "block"
-            }`}
-          >
-            {/* Plain img, no key, no motion -> instant swap, no flash */}
-            <img
-              src={imgObj.url}
-              alt={`Preview ${imgObj.realIndex + 1}`}
-              loading="eager"
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-[1.04]"
-            />
+        {slots.map((slot, i) => {
+          /* Empty placeholder -> invisible, keeps grid stable */
+          if (!slot) {
+            return (
+              <div
+                key={`placeholder-${i}`}
+                aria-hidden="true"
+                className={`relative aspect-[16/10] rounded-xl ${
+                  i > 0 ? "hidden md:block" : "block"
+                }`}
+              />
+            );
+          }
 
-            {/* Subtle dark gradient at the bottom */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover/img:opacity-100 transition-opacity duration-300 pointer-events-none" />
+          return (
+            <button
+              key={`${activeRoleId || "flat"}-${i}`}
+              onClick={() => onExpandImage(slot.url)}
+              className={`group/img relative aspect-[16/10] rounded-xl overflow-hidden border border-white/10 bg-black cursor-pointer transition-all duration-300 hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-500/20 ${
+                i > 0 ? "hidden md:block" : "block"
+              }`}
+            >
+              {/* Plain img, no motion -> instant swap, no flash */}
+              <img
+                src={slot.url}
+                alt={`Preview ${slot.realIndex + 1}`}
+                loading="eager"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-[1.04]"
+              />
 
-            {/* Number badge — top-left */}
-            <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-bold text-white/90 tabular-nums">
-              {String(imgObj.realIndex + 1).padStart(2, "0")}
-            </div>
+              {/* Bottom gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover/img:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-            {/* Expand icon — slides up from bottom-right on hover */}
-            <div className="absolute bottom-2 right-2 w-8 h-8 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center opacity-0 translate-y-1 group-hover/img:opacity-100 group-hover/img:translate-y-0 transition-all duration-300 text-[10px]">
-              <FaExpand />
-            </div>
-          </button>
-        ))}
+              {/* Number badge — top-left */}
+              <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-bold text-white/90 tabular-nums">
+                {String(slot.realIndex + 1).padStart(2, "0")}
+              </div>
+
+              {/* Expand icon — slides up on hover */}
+              <div className="absolute bottom-2 right-2 w-8 h-8 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center opacity-0 translate-y-1 group-hover/img:opacity-100 group-hover/img:translate-y-0 transition-all duration-300 text-[10px]">
+                <FaExpand />
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {/* ===== Dots indicator ===== */}
       {total > 1 && (
         <div className="mt-4 flex items-center justify-center gap-1.5">
-          {images.map((_, i) => (
+          {currentImages.map((_, i) => (
             <button
               key={i}
               onClick={() => setStartIndex(i)}
@@ -369,105 +451,112 @@ const Work = () => {
   );
 
   /* ================= PROJECT CARD ================= */
-  const renderProjectCard = (item, index) => (
-    <motion.div
-      key={index}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -4 }}
-      className={`group relative rounded-3xl border ${borderColor} ${cardBg} transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden backdrop-blur-sm`}
-    >
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+  const renderProjectCard = (item, index) => {
+    const hasImages =
+      (item.images && item.images.length > 0) ||
+      (item.roles && item.roles.length > 0);
 
-      {item.images && item.images.length > 0 && (
-        <MultiImageSlider
-          images={item.images}
-          onExpandImage={(imgSrc) => setExpandedImage(imgSrc)}
-        />
-      )}
+    return (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        whileHover={{ y: -4 }}
+        className={`group relative rounded-3xl border ${borderColor} ${cardBg} transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden backdrop-blur-sm`}
+      >
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
-      <div className="p-6 md:p-8 relative z-10">
-        <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="text-[10px] text-cyan-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
-            {item.type}
-          </span>
-          <span className="text-xs text-gray-400 font-medium">
-            • {item.location}
-          </span>
-        </div>
+        {hasImages && (
+          <MultiImageSlider
+            images={item.images}
+            roles={item.roles}
+            onExpandImage={(imgSrc) => setExpandedImage(imgSrc)}
+          />
+        )}
 
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
-          <div className="flex-1">
-            <h3
-              className={`text-xl sm:text-2xl md:text-3xl font-bold ${headingColor} leading-tight mb-2 group-hover:text-blue-400 transition-colors`}
-            >
-              {item.title}
-            </h3>
-            <p className="text-xs font-semibold text-cyan-400/90 inline-block">
-              🗓️ {item.period}
-            </p>
-          </div>
-
-          {item.videoUrl && (
-            <button
-              onClick={() => setOpenVideo(item.videoUrl)}
-              className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/30 hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all duration-300 shrink-0 self-start cursor-pointer"
-            >
-              <FaExternalLinkAlt className="text-[10px]" />
-              Watch Demo
-            </button>
-          )}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mt-6">
-          <div className="lg:col-span-8">
-            <ul className="space-y-3">
-              {item.points.map((pt, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-3 text-sm sm:text-base leading-relaxed"
-                >
-                  <span className="text-cyan-500 mt-1 text-xs shrink-0">
-                    ⚡
-                  </span>
-                  <span
-                    className={isDark ? "text-gray-300" : "text-gray-700"}
-                    dangerouslySetInnerHTML={{ __html: pt }}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div
-            className={`lg:col-span-4 lg:border-l ${
-              isDark ? "lg:border-white/10" : "lg:border-slate-200"
-            } lg:pl-6`}
-          >
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-2">
-              Technologies Used
+        <div className="p-6 md:p-8 relative z-10">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <span className="text-[10px] text-cyan-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+              {item.type}
             </span>
-            <div className="flex flex-wrap gap-1.5">
-              {item.tech.map((t) => (
-                <span
-                  key={t}
-                  className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-colors ${
-                    isDark
-                      ? "bg-white/5 border border-white/10 text-gray-300 hover:border-cyan-500/40 hover:text-cyan-400"
-                      : "bg-slate-100 border border-slate-200 text-slate-700 hover:bg-cyan-50 hover:text-cyan-600"
-                  }`}
-                >
-                  {t}
-                </span>
-              ))}
+            <span className="text-xs text-gray-400 font-medium">
+              • {item.location}
+            </span>
+          </div>
+
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
+            <div className="flex-1">
+              <h3
+                className={`text-xl sm:text-2xl md:text-3xl font-bold ${headingColor} leading-tight mb-2 group-hover:text-blue-400 transition-colors`}
+              >
+                {item.title}
+              </h3>
+              <p className="text-xs font-semibold text-cyan-400/90 inline-block">
+                🗓️ {item.period}
+              </p>
+            </div>
+
+            {item.videoUrl && (
+              <button
+                onClick={() => setOpenVideo(item.videoUrl)}
+                className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2.5 rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/30 hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-all duration-300 shrink-0 self-start cursor-pointer"
+              >
+                <FaExternalLinkAlt className="text-[10px]" />
+                Watch Demo
+              </button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mt-6">
+            <div className="lg:col-span-8">
+              <ul className="space-y-3">
+                {item.points.map((pt, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start gap-3 text-sm sm:text-base leading-relaxed"
+                  >
+                    <span className="text-cyan-500 mt-1 text-xs shrink-0">
+                      ⚡
+                    </span>
+                    <span
+                      className={isDark ? "text-gray-300" : "text-gray-700"}
+                      dangerouslySetInnerHTML={{ __html: pt }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div
+              className={`lg:col-span-4 lg:border-l ${
+                isDark ? "lg:border-white/10" : "lg:border-slate-200"
+              } lg:pl-6`}
+            >
+              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-2">
+                Technologies Used
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {item.tech.map((t) => (
+                  <span
+                    key={t}
+                    className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-colors ${
+                      isDark
+                        ? "bg-white/5 border border-white/10 text-gray-300 hover:border-cyan-500/40 hover:text-cyan-400"
+                        : "bg-slate-100 border border-slate-200 text-slate-700 hover:bg-cyan-50 hover:text-cyan-600"
+                    }`}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </motion.div>
-  );
+      </motion.div>
+    );
+  };
 
   return (
     <div
