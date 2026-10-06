@@ -145,7 +145,7 @@ const PROJECT_ITEMS = [
     period: "Featured Project",
     location: "Fintech Application",
     type: "Fullstack Project",
-    // 1. Zidna AI Chatbot f el tech stack
+
     tech: [
       "Angular 17",
       "Node.js",
@@ -155,7 +155,7 @@ const PROJECT_ITEMS = [
       "AI Chatbot",
       "JWT",
     ],
-    // 2. El roles (Client / Admin) bech yekhou design mta3 SmartDelivery
+
     roles: [
       {
         id: "user",
@@ -204,7 +204,7 @@ const PROJECT_ITEMS = [
         ],
       },
     ],
-    // 3. El points mkamlini b el Chatbot w el architecture mta3 el documentation
+
     points: [
       "Developed an <strong class='text-blue-500 font-semibold'>intelligent AI Chatbot</strong> providing 24/7 real-time customer support, automated query resolution, and contextual assistance for banking operations.",
       "Built a secure full-stack banking interface using <strong class='text-blue-500 font-semibold'>Angular 17</strong> and <strong class='text-blue-500 font-semibold'>Node.js</strong>, featuring modular Chatbot routing and help-support components.",
