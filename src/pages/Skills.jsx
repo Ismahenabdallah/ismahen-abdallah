@@ -453,7 +453,7 @@ const Skills = () => {
           </div>
         </motion.div>
 
-        <div className="mt-10 md:mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+        <div className="mt-10 md:mt-14 grid grid-cols-1  lg:grid-cols-3 gap-4 md:gap-5">
           {SOFT_SKILLS.map((item, i) => (
             <motion.div
               key={i}
