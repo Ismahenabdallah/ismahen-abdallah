@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
-/* Dark mode b class (mch media query) — Tailwind v4 */
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --color-darkblue: #0a192f;
+  --container-8xl: 88rem;
+}
 
 html,
 body,
@@ -10,6 +16,7 @@ body,
   min-height: 100%;
   margin: 0;
   padding: 0;
+  font-family: var(--font-sans);
 }
 
 html.dark,

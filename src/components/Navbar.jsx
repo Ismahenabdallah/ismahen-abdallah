@@ -96,7 +96,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6">
           <ul className="flex items-center gap-2">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.replace("#", "");
@@ -137,7 +137,7 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Controls */}
-        <div className="flex md:hidden items-center gap-4 z-[60]">
+        <div className="flex lg:hidden items-center gap-4 z-[60]">
           <ThemeToggleButton isDark={isDark} toggle={toggle} />
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -155,7 +155,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 top-0 w-full h-screen z-[-1] md:hidden"
+            className="fixed inset-0 top-0 w-full h-screen z-[-1] lg:hidden"
           >
             {/* Background Blur */}
             <div

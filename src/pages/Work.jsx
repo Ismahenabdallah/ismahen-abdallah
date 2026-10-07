@@ -642,7 +642,7 @@ const Work = () => {
   return (
     <div
       id="experience"
-      className={`${containerBg} min-h-screen py-16 sm:py-24 transition-colors duration-500 relative overflow-hidden`}
+      className={`${containerBg} min-h-screen py-10 sm:py-16 transition-colors duration-500 relative overflow-hidden`}
     >
       <div className="absolute top-40 -left-40 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-40 -right-40 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
