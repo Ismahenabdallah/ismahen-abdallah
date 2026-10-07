@@ -7,12 +7,12 @@ const navLinks = [
   { name: "Home", href: "#home" },
   { name: "Education", href: "#education" },
   { name: "Skills", href: "#skills" },
-  { name: "Experience", href: "#projects" },
+  { name: "Experience", href: "#experience" },
   { name: "Connect", href: "#connect" },
 ];
 
 export default function Navbar() {
-  // Thabbet houni: nesta3mlou "toggle" 5ater el Context mte3ek fih "toggle"
+  // use Theme to get the current theme and toggle function
   const { theme, toggle } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -71,7 +71,7 @@ export default function Navbar() {
         }`}
     >
       <div className="max-w-8xl mx-auto flex justify-between items-center px-6">
-        {/* --- LOGO SECTION (El Motion elli 3jebek) --- */}
+        {/* --- LOGO SECTION  --- */}
         <a
           href="#home"
           onClick={(e) => scrollToSection(e, "#home")}

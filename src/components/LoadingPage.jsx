@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const LoadingPage = () => {
-  // 1. Defini el variations mta3 el animation lil reuse
+  // 1.Define animation variants for the container, photo, and text
   const containerVariants = {
     exit: {
       opacity: 0,
@@ -35,7 +35,8 @@ const LoadingPage = () => {
       exit="exit"
       className="fixed inset-0 z-[100] bg-[#050505] flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* 2. Container mta3 el Image: Asghwer, Pro squircle, w Glow 5fif */}
+      {/* 2. Image Section: Circular Frame with Gradient Border */}
+
       <motion.div
         variants={photoVariants}
         className="relative w-20 h-20 p-[2px] rounded-3xl bg-gradient-to-tr from-blue-600/60 to-indigo-600/20 shadow-[0_0_40px_rgba(37,99,235,0.25)]"
@@ -44,7 +45,7 @@ const LoadingPage = () => {
           <img
             src="./picture_cv.jpeg"
             alt="IA"
-            className="w-full h-full object-cover grayscale brightness-110" // Grayscale bech tji m3a el Dark Theme
+            className="w-full h-full object-cover grayscale brightness-110"
           />
         </div>
       </motion.div>
@@ -63,7 +64,7 @@ const LoadingPage = () => {
         />
       </div>
 
-      {/* 5. Typography: Small, Spaced, Uppercase - The Signature mta3 el Professionalism */}
+      {/* 5. Typography: Small, Spaced, Uppercase - The Signature For  Professionalism */}
       <motion.div
         variants={textVariants}
         className="mt-6 flex flex-col items-center gap-1.5"

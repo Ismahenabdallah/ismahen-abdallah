@@ -9,9 +9,9 @@ import {
   FaExpand,
   FaChevronLeft,
   FaChevronRight,
+  FaChevronDown,
 } from "react-icons/fa";
 
-// ================= DATA =================
 const EXPERIENCE_ITEMS = [
   {
     title:
@@ -95,10 +95,6 @@ const PROJECT_ITEMS = [
     type: "Fullstack Project",
     tech: ["MERN Stack", "Tailwind CSS", "Sass", "Redux Toolkit", "Socket.io"],
     videoUrl: `${import.meta.env.BASE_URL}projects/videos/Smartdeliverydemo.mp4`,
-    /* ============ ROLES (categorized images) ============
-       ⚠️ ADAPT THE MAPPING BELOW — just move image paths
-       between the arrays so they match the real role.
-    */
     roles: [
       {
         id: "client",
@@ -228,14 +224,6 @@ const PROJECT_ITEMS = [
   },
 ];
 
-/* ================= MULTI IMAGE SLIDER — PROFESSIONAL (fixed layout with roles) =================
-   - Role tabs (Client/Admin/Driver) in the header on the left
-   - Counter + nav buttons on the right
-   - ALWAYS 3 slots, ALWAYS grid-cols-3 on md+ -> layout never shifts
-   - When a role has fewer than 3 images, empty slots render as invisible
-     placeholders (same aspect ratio) so nothing grows/shrinks
-   - Preloaded images -> zero flash
-*/
 const MultiImageSlider = ({ images, roles, onExpandImage }) => {
   const hasRoles = Array.isArray(roles) && roles.length > 0;
   const [activeRoleId, setActiveRoleId] = useState(
@@ -243,17 +231,14 @@ const MultiImageSlider = ({ images, roles, onExpandImage }) => {
   );
   const [startIndex, setStartIndex] = useState(0);
 
-  // Resolve current image set
   const currentImages = hasRoles
     ? roles.find((r) => r.id === activeRoleId)?.images || []
     : images || [];
 
-  // Reset slide index when switching role
   useEffect(() => {
     setStartIndex(0);
   }, [activeRoleId]);
 
-  // Preload current images -> zero flash
   useEffect(() => {
     if (!currentImages || currentImages.length === 0) return;
     currentImages.forEach((src) => {
@@ -269,7 +254,6 @@ const MultiImageSlider = ({ images, roles, onExpandImage }) => {
   const goPrev = () => setStartIndex((i) => (i === 0 ? total - 1 : i - 1));
   const goNext = () => setStartIndex((i) => (i === total - 1 ? 0 : i + 1));
 
-  // Build exactly 3 slots (fixed). Extra slots are null placeholders.
   const SLOTS = 3;
   const slots = [];
   for (let i = 0; i < SLOTS; i++) {
@@ -277,15 +261,13 @@ const MultiImageSlider = ({ images, roles, onExpandImage }) => {
       const idx = (startIndex + i) % total;
       slots.push({ url: currentImages[idx], realIndex: idx });
     } else {
-      slots.push(null); // invisible placeholder -> keeps grid stable
+      slots.push(null);
     }
   }
 
   return (
     <div className="relative w-full rounded-t-3xl bg-gradient-to-b from-slate-950 to-slate-950/60 border-b border-white/10 p-4 sm:p-5">
-      {/* ===== Header bar: role tabs + counter + nav ===== */}
       <div className="flex items-center justify-between gap-3 mb-3 flex-wrap">
-        {/* Left: role tabs OR "Preview" label */}
         {hasRoles ? (
           <div className="flex items-center gap-1 p-1 rounded-xl bg-white/5 border border-white/10">
             {roles.map((role) => {
@@ -314,7 +296,6 @@ const MultiImageSlider = ({ images, roles, onExpandImage }) => {
           </div>
         )}
 
-        {/* Right: counter + nav */}
         <div className="flex items-center gap-3">
           <span className="text-[10px] font-bold text-gray-400 tabular-nums tracking-widest">
             <span className="text-white">
@@ -345,10 +326,8 @@ const MultiImageSlider = ({ images, roles, onExpandImage }) => {
         </div>
       </div>
 
-      {/* ===== Image grid — ALWAYS 3 columns on md+ (never shifts) ===== */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {slots.map((slot, i) => {
-          /* Empty placeholder -> invisible, keeps grid stable */
           if (!slot) {
             return (
               <div
@@ -369,7 +348,6 @@ const MultiImageSlider = ({ images, roles, onExpandImage }) => {
                 i > 0 ? "hidden md:block" : "block"
               }`}
             >
-              {/* Plain img, no motion -> instant swap, no flash */}
               <img
                 src={slot.url}
                 alt={`Preview ${slot.realIndex + 1}`}
@@ -377,15 +355,12 @@ const MultiImageSlider = ({ images, roles, onExpandImage }) => {
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-[1.04]"
               />
 
-              {/* Bottom gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover/img:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-              {/* Number badge — top-left */}
               <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/10 text-[9px] font-bold text-white/90 tabular-nums">
                 {String(slot.realIndex + 1).padStart(2, "0")}
               </div>
 
-              {/* Expand icon — slides up on hover */}
               <div className="absolute bottom-2 right-2 w-8 h-8 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center opacity-0 translate-y-1 group-hover/img:opacity-100 group-hover/img:translate-y-0 transition-all duration-300 text-[10px]">
                 <FaExpand />
               </div>
@@ -394,7 +369,6 @@ const MultiImageSlider = ({ images, roles, onExpandImage }) => {
         })}
       </div>
 
-      {/* ===== Dots indicator ===== */}
       {total > 1 && (
         <div className="mt-4 flex items-center justify-center gap-1.5">
           {currentImages.map((_, i) => (
@@ -421,7 +395,31 @@ const Work = () => {
   const [openVideo, setOpenVideo] = useState(null);
   const [expandedImage, setExpandedImage] = useState(null);
 
-  // Theme-based styles
+  const [activeTab, setActiveTab] = useState("experience");
+
+  const [visibleExperience, setVisibleExperience] = useState(2);
+  const [visibleProjects, setVisibleProjects] = useState(2);
+
+  const TABS = [
+    {
+      id: "experience",
+      label: "Experience",
+      icon: FaBriefcase,
+      count: EXPERIENCE_ITEMS.length,
+    },
+    {
+      id: "projects",
+      label: "Projects",
+      icon: FaCode,
+      count: PROJECT_ITEMS.length,
+    },
+  ];
+
+  useEffect(() => {
+    if (activeTab === "experience") setVisibleExperience(2);
+    else setVisibleProjects(2);
+  }, [activeTab]);
+
   const containerBg = isDark ? "bg-[#080808]" : "bg-slate-50";
   const textPrimary = isDark ? "text-gray-400" : "text-gray-600";
   const cardBg = isDark
@@ -433,20 +431,17 @@ const Work = () => {
     : "border-slate-200 hover:border-blue-500/40";
   const headingColor = isDark ? "text-white" : "text-slate-900";
 
-  /* ================= EXPERIENCE CARD ================= */
-  const renderExperienceCard = (item, index) => (
-    <motion.div
+  const renderExperienceCard = (item, index, hiddenOnMobile = false) => (
+    <div
       key={index}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-      className={`group p-6 md:p-8 rounded-3xl border ${borderColor} ${cardBg} transition-all duration-300 shadow-sm relative overflow-hidden backdrop-blur-sm`}
+      className={`${
+        hiddenOnMobile ? "hidden lg:block" : ""
+      } group p-6 md:p-8 rounded-3xl border ${borderColor} ${cardBg} transition-all duration-300 shadow-sm relative overflow-hidden backdrop-blur-sm h-full`}
     >
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <div className="lg:col-span-5 flex flex-col justify-between h-full">
+      <div className="grid grid-cols-1 gap-6 items-start">
+        <div className="flex flex-col justify-between h-full">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="text-[10px] text-blue-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20">
@@ -490,9 +485,9 @@ const Work = () => {
         </div>
 
         <div
-          className={`lg:col-span-7 lg:border-l ${
-            isDark ? "lg:border-white/10" : "lg:border-slate-200"
-          } lg:pl-6 pt-4 lg:pt-0`}
+          className={`border-t ${
+            isDark ? "border-white/10" : "border-slate-200"
+          } pt-4`}
         >
           <ul className="space-y-3">
             {item.points.map((pt, i) => (
@@ -510,10 +505,9 @@ const Work = () => {
           </ul>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 
-  /* ================= PROJECT CARD ================= */
   const renderProjectCard = (item, index) => {
     const hasImages =
       (item.images && item.images.length > 0) ||
@@ -522,11 +516,8 @@ const Work = () => {
     return (
       <motion.div
         key={index}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
         whileHover={{ y: -4 }}
+        transition={{ duration: 0.25 }}
         className={`group relative rounded-3xl border ${borderColor} ${cardBg} transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden backdrop-blur-sm`}
       >
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
@@ -621,104 +612,198 @@ const Work = () => {
     );
   };
 
+  const ShowMoreButton = ({ visible, total, onShowMore, onShowLess }) => {
+    const hasMore = visible < total;
+    const canCollapse = visible > 2;
+
+    if (!hasMore && !canCollapse) return null;
+
+    return (
+      <div className="flex justify-center pt-2">
+        <button
+          onClick={hasMore ? onShowMore : onShowLess}
+          className={`group inline-flex items-center gap-2 text-xs font-bold px-5 py-3 rounded-xl border transition-all duration-300 cursor-pointer ${
+            isDark
+              ? "bg-white/5 border-white/10 text-gray-300 hover:bg-blue-500 hover:text-white hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/30"
+              : "bg-white border-slate-200 text-slate-700 hover:bg-blue-500 hover:text-white hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/20"
+          }`}
+        >
+          <span>{hasMore ? `Show ${total - visible} More` : "Show Less"}</span>
+          <FaChevronDown
+            className={`text-[10px] transition-transform duration-300 ${
+              hasMore ? "group-hover:translate-y-0.5" : "rotate-180"
+            }`}
+          />
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div
-      id="projects"
+      id="experience"
       className={`${containerBg} min-h-screen py-16 sm:py-24 transition-colors duration-500 relative overflow-hidden`}
     >
       <div className="absolute top-40 -left-40 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-40 -right-40 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
-        {/* ================= PAGE HEADER ================= */}
-        <div className="text-center mb-16 md:mb-20">
-          <motion.h1
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+        <div className="text-center mb-12 md:mb-16">
+          <h1
             className={`text-3xl sm:text-5xl md:text-6xl font-black mb-4 tracking-tighter ${headingColor}`}
           >
             Engineering{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-400">
               Track Record
             </span>
-          </motion.h1>
+          </h1>
           <p className={`text-sm md:text-base max-w-xl mx-auto ${textPrimary}`}>
             A focused breakdown of production systems engineered, architectures
             built, and technical contributions delivered.
           </p>
         </div>
 
-        {/* ================= SECTION 1: WORK EXPERIENCE ================= */}
-        <div className="mb-20">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
-              <FaBriefcase className="text-xl" />
-            </div>
-            <div>
-              <h2
-                className={`text-2xl sm:text-3xl font-black tracking-tight ${headingColor}`}
-              >
-                Work Experience
-              </h2>
-              <p className="text-xs text-gray-400">
-                Production roles & software contracts
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            {EXPERIENCE_ITEMS.map((item, index) =>
-              renderExperienceCard(item, index),
-            )}
-          </div>
-        </div>
-
-        {/* ================= SEPARATOR ================= */}
-        <div className="relative my-20 flex items-center justify-center">
-          <div className="absolute inset-0 flex items-center">
-            <div
-              className={`w-full border-t ${
-                isDark ? "border-white/10" : "border-slate-200"
-              }`}
-            />
-          </div>
+        <div className="flex justify-center mb-10 md:mb-14">
           <div
-            className={`relative px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest border ${
+            className={`relative inline-flex items-center gap-1 p-1.5 rounded-2xl border backdrop-blur-md ${
               isDark
-                ? "bg-[#080808] border-white/10 text-cyan-400"
-                : "bg-slate-50 border-slate-300 text-cyan-600"
-            } shadow-sm flex items-center gap-2`}
+                ? "bg-white/5 border-white/10"
+                : "bg-white border-slate-200 shadow-sm"
+            }`}
           >
-            <FaCode /> Featured Systems
+            {TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative z-10 flex items-center gap-2 px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold tracking-wide transition-colors duration-300 cursor-pointer ${
+                    isActive
+                      ? "text-white"
+                      : isDark
+                        ? "text-gray-400 hover:text-white"
+                        : "text-slate-500 hover:text-slate-900"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="work-tab-pill"
+                      transition={{
+                        type: "spring",
+                        stiffness: 320,
+                        damping: 32,
+                        mass: 0.9,
+                      }}
+                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/30 -z-10"
+                    />
+                  )}
+                  <Icon className="text-[12px]" />
+                  <span>{tab.label}</span>
+                  <span
+                    className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-md tabular-nums ${
+                      isActive
+                        ? "bg-white/20 text-white"
+                        : isDark
+                          ? "bg-white/5 text-gray-500"
+                          : "bg-slate-100 text-slate-500"
+                    }`}
+                  >
+                    {String(tab.count).padStart(2, "0")}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* ================= SECTION 2: PROJECTS ================= */}
-        <div>
-          <div className="flex items-center gap-3 mb-8">
-            <div className="p-3 rounded-2xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20">
-              <FaCode className="text-xl" />
-            </div>
-            <div>
-              <h2
-                className={`text-2xl sm:text-3xl font-black tracking-tight ${headingColor}`}
-              >
-                Highlighted Applications
-              </h2>
-              <p className="text-xs text-gray-400">
-                Architected projects & technical platforms
-              </p>
-            </div>
-          </div>
+        <AnimatePresence mode="wait" initial={false}>
+          {activeTab === "experience" && (
+            <motion.div
+              key="experience"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="flex items-center gap-3 mb-8">
+                <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                  <FaBriefcase className="text-xl" />
+                </div>
+                <div>
+                  <h2
+                    className={`text-2xl sm:text-3xl font-black tracking-tight ${headingColor}`}
+                  >
+                    Work Experience
+                  </h2>
+                  <p className="text-xs text-gray-400">
+                    Production roles & software contracts
+                  </p>
+                </div>
+              </div>
 
-          <div className="space-y-8">
-            {PROJECT_ITEMS.map((item, index) => renderProjectCard(item, index))}
-          </div>
-        </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {EXPERIENCE_ITEMS.map((item, index) =>
+                  renderExperienceCard(item, index, index >= visibleExperience),
+                )}
+              </div>
+
+              <div className="mt-8 lg:hidden">
+                <ShowMoreButton
+                  visible={visibleExperience}
+                  total={EXPERIENCE_ITEMS.length}
+                  onShowMore={() =>
+                    setVisibleExperience(EXPERIENCE_ITEMS.length)
+                  }
+                  onShowLess={() => setVisibleExperience(2)}
+                />
+              </div>
+            </motion.div>
+          )}
+
+          {activeTab === "projects" && (
+            <motion.div
+              key="projects"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="flex items-center gap-3 mb-8">
+                <div className="p-3 rounded-2xl bg-cyan-500/10 text-cyan-500 border border-cyan-500/20">
+                  <FaCode className="text-xl" />
+                </div>
+                <div>
+                  <h2
+                    className={`text-2xl sm:text-3xl font-black tracking-tight ${headingColor}`}
+                  >
+                    Highlighted Applications
+                  </h2>
+                  <p className="text-xs text-gray-400">
+                    Architected projects & technical platforms
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-8">
+                {PROJECT_ITEMS.slice(0, visibleProjects).map((item, index) =>
+                  renderProjectCard(item, index),
+                )}
+              </div>
+
+              <div className="mt-8">
+                <ShowMoreButton
+                  visible={visibleProjects}
+                  total={PROJECT_ITEMS.length}
+                  onShowMore={() => setVisibleProjects(PROJECT_ITEMS.length)}
+                  onShowLess={() => setVisibleProjects(2)}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* ================= VIDEO MODAL ================= */}
       <AnimatePresence>
         {openVideo && (
           <motion.div
@@ -765,7 +850,6 @@ const Work = () => {
         )}
       </AnimatePresence>
 
-      {/* ================= IMAGE FULLSCREEN MODAL — SUPER BASIC ================= */}
       {expandedImage && (
         <div
           onClick={() => setExpandedImage(null)}

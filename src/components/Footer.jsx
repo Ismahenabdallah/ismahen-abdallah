@@ -42,7 +42,7 @@ const Footer = () => {
 
           {/* Quick Links - Very Pro touch */}
           <nav className="flex flex-wrap justify-center gap-6 text-sm font-semibold">
-            {["Home", "Education", "Skills", "projects", "Connect"].map(
+            {["Home", "Education", "Skills", "Experience", "Connect"].map(
               (item) => (
                 <a
                   key={item}

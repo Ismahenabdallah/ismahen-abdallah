@@ -7,7 +7,7 @@ export const PERSONAL_INFO = {
     location: "Tunisia",
     github: "https://github.com/ismahenabdallah",
     linkedin: "https://www.linkedin.com/in/ismahen-abdallah/",
-    // El-Summary el-Clean mta3ek direct w min 8ir buzzwords:
+
     summary: "Full Stack Developer with over 3 years of experience, specializing in designing robust full-stack applications with the .NET ecosystem (C#, ASP.NET Core) and modern JS frameworks. Passionate about Clean Architecture and SOLID principles, committed to delivering high-quality, maintainable, and high-performance code to solve complex business challenges.",
 };
 

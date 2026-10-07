@@ -109,7 +109,7 @@ const Home = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <a
-                href="#projects"
+                href="#Experience"
                 className="px-8 md:px-10 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-1 text-center"
               >
                 View My Projects

@@ -50,7 +50,7 @@ const App = () => {
                 <section id="skills">
                   <Skills />
                 </section>
-                <section id="projects">
+                <section id="Experience">
                   <Work />
                 </section>
                 <section id="connect">
