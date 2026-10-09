@@ -12,6 +12,9 @@ import {
   FaChevronDown,
 } from "react-icons/fa";
 
+// ============================================================
+// EXPERIENCE DATA
+// ============================================================
 const EXPERIENCE_ITEMS = [
   {
     title:
@@ -87,6 +90,9 @@ const EXPERIENCE_ITEMS = [
   },
 ];
 
+// ============================================================
+// PROJECTS DATA
+// ============================================================
 const PROJECT_ITEMS = [
   {
     title: "SmartDelivery",
@@ -266,6 +272,10 @@ const PROJECT_ITEMS = [
   },
 ];
 
+// ============================================================
+// MULTI IMAGE SLIDER COMPONENT
+// Handles role-based image galleries with pagination
+// ============================================================
 const MultiImageSlider = ({ images, roles, onExpandImage }) => {
   const hasRoles = Array.isArray(roles) && roles.length > 0;
   const [activeRoleId, setActiveRoleId] = useState(
@@ -431,17 +441,42 @@ const MultiImageSlider = ({ images, roles, onExpandImage }) => {
   );
 };
 
+// ============================================================
+// MAIN WORK COMPONENT
+// ============================================================
 const Work = () => {
   const { theme } = useTheme() || { theme: "dark" };
   const isDark = theme === "dark";
+
+  // Modal states
   const [openVideo, setOpenVideo] = useState(null);
   const [expandedImage, setExpandedImage] = useState(null);
 
+  // Active tab (experience | projects)
   const [activeTab, setActiveTab] = useState("experience");
 
+  // Number of visible items (show more / show less)
   const [visibleExperience, setVisibleExperience] = useState(2);
   const [visibleProjects, setVisibleProjects] = useState(2);
 
+  // Track which card should be temporarily highlighted after "Show More"
+  const [highlightedExpIndex, setHighlightedExpIndex] = useState(null);
+  const [highlightedProjIndex, setHighlightedProjIndex] = useState(null);
+
+  // Detect desktop to render all items (mobile uses slicing)
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(min-width: 1024px)").matches;
+  });
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const handler = (e) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  // Tab configuration
   const TABS = [
     {
       id: "experience",
@@ -457,11 +492,51 @@ const Work = () => {
     },
   ];
 
+  // Reset visible counts when switching tabs
   useEffect(() => {
     if (activeTab === "experience") setVisibleExperience(2);
     else setVisibleProjects(2);
   }, [activeTab]);
 
+  // ------------------------------------------------------------
+  // SHOW MORE HANDLERS — scroll + temporary highlight
+  // ------------------------------------------------------------
+  const handleShowMoreExperience = () => {
+    const firstNewIndex = visibleExperience;
+    setVisibleExperience(EXPERIENCE_ITEMS.length);
+    setHighlightedExpIndex(firstNewIndex);
+
+    setTimeout(() => {
+      const cards = document.querySelectorAll("[data-exp-card]");
+      const target = cards[firstNewIndex];
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }, 80);
+
+    // Remove highlight after 2s
+    setTimeout(() => setHighlightedExpIndex(null), 2000);
+  };
+
+  const handleShowMoreProjects = () => {
+    const firstNewIndex = visibleProjects;
+    setVisibleProjects(PROJECT_ITEMS.length);
+    setHighlightedProjIndex(firstNewIndex);
+
+    setTimeout(() => {
+      const cards = document.querySelectorAll("[data-project-card]");
+      const target = cards[firstNewIndex];
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }, 80);
+
+    setTimeout(() => setHighlightedProjIndex(null), 2000);
+  };
+
+  // Theme-based styles
   const containerBg = isDark ? "bg-[#080808]" : "bg-slate-50";
   const textPrimary = isDark ? "text-gray-400" : "text-gray-600";
   const cardBg = isDark
@@ -473,100 +548,122 @@ const Work = () => {
     : "border-slate-200 hover:border-blue-500/40";
   const headingColor = isDark ? "text-white" : "text-slate-900";
 
-  const renderExperienceCard = (item, index, hiddenOnMobile = false) => (
-    <div
-      key={index}
-      className={`${
-        hiddenOnMobile ? "hidden lg:block" : ""
-      } group p-6 md:p-8 rounded-3xl border ${borderColor} ${cardBg} transition-colors duration-300 shadow-sm relative overflow-hidden backdrop-blur-sm h-full`}
-    >
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+  // ------------------------------------------------------------
+  // EXPERIENCE CARD RENDERER
+  // ------------------------------------------------------------
+  const renderExperienceCard = (item, index, hiddenOnMobile = false) => {
+    const isHighlighted = highlightedExpIndex === index;
 
-      <div className="grid grid-cols-1 gap-6 items-start">
-        <div className="flex flex-col justify-between h-full">
-          <div>
-            <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="text-[10px] text-blue-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20">
-                {item.type}
-              </span>
-              <span className="text-xs text-gray-400 font-medium">
-                • {item.location}
-              </span>
-              {item.status && (
-                <span className="text-[10px] text-amber-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 inline-flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                  {item.status}
+    return (
+      <div
+        key={index}
+        data-exp-card
+        className={`${
+          hiddenOnMobile ? "hidden lg:block" : ""
+        } group p-6 md:p-8 rounded-3xl border ${borderColor} ${cardBg} transition-colors duration-300 shadow-sm relative overflow-hidden backdrop-blur-sm h-full ${
+          isHighlighted
+            ? "ring-2 ring-blue-500/60 shadow-lg shadow-blue-500/20"
+            : ""
+        }`}
+      >
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        <div className="grid grid-cols-1 gap-6 items-start">
+          <div className="flex flex-col justify-between h-full">
+            <div>
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="text-[10px] text-blue-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20">
+                  {item.type}
                 </span>
-              )}
-            </div>
-
-            <h3
-              className={`text-xl sm:text-2xl font-bold ${headingColor} leading-tight mb-2 group-hover:text-blue-400 transition-colors`}
-            >
-              {item.title}
-            </h3>
-
-            <p className="text-xs font-semibold text-blue-400/90 mb-4 inline-block">
-              🗓️ {item.period}
-            </p>
-          </div>
-
-          <div className="pt-2">
-            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-2">
-              Technologies Used
-            </span>
-            <div className="flex flex-wrap gap-1.5">
-              {item.tech.map((t) => (
-                <span
-                  key={t}
-                  className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-colors ${
-                    isDark
-                      ? "bg-white/5 border border-white/10 text-gray-300 hover:border-blue-500/40 hover:text-blue-400"
-                      : "bg-slate-100 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-blue-600"
-                  }`}
-                >
-                  {t}
+                <span className="text-xs text-gray-400 font-medium">
+                  • {item.location}
                 </span>
-              ))}
-            </div>
-          </div>
-        </div>
+                {item.status && (
+                  <span className="text-[10px] text-amber-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 inline-flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                    {item.status}
+                  </span>
+                )}
+              </div>
 
-        <div
-          className={`border-t ${
-            isDark ? "border-white/10" : "border-slate-200"
-          } pt-4`}
-        >
-          <ul className="space-y-3">
-            {item.points.map((pt, i) => (
-              <li
-                key={i}
-                className="flex items-start gap-3 text-sm sm:text-base leading-relaxed"
+              <h3
+                className={`text-xl sm:text-2xl font-bold ${headingColor} leading-tight mb-2 group-hover:text-blue-400 transition-colors`}
               >
-                <span className="text-blue-500 mt-1 text-xs">⚡</span>
-                <span
-                  className={isDark ? "text-gray-300" : "text-gray-700"}
-                  dangerouslySetInnerHTML={{ __html: pt }}
-                />
-              </li>
-            ))}
-          </ul>
+                {item.title}
+              </h3>
+
+              <p className="text-xs font-semibold text-blue-400/90 mb-4 inline-block">
+                🗓️ {item.period}
+              </p>
+            </div>
+
+            <div className="pt-2">
+              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-2">
+                Technologies Used
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {item.tech.map((t) => (
+                  <span
+                    key={t}
+                    className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-colors ${
+                      isDark
+                        ? "bg-white/5 border border-white/10 text-gray-300 hover:border-blue-500/40 hover:text-blue-400"
+                        : "bg-slate-100 border border-slate-200 text-slate-700 hover:bg-blue-50 hover:text-blue-600"
+                    }`}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`border-t ${
+              isDark ? "border-white/10" : "border-slate-200"
+            } pt-4`}
+          >
+            <ul className="space-y-3">
+              {item.points.map((pt, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-3 text-sm sm:text-base leading-relaxed"
+                >
+                  <span className="text-blue-500 mt-1 text-xs">⚡</span>
+                  <span
+                    className={isDark ? "text-gray-300" : "text-gray-700"}
+                    dangerouslySetInnerHTML={{ __html: pt }}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
+  // ------------------------------------------------------------
+  // PROJECT CARD RENDERER
+  // ------------------------------------------------------------
   const renderProjectCard = (item, index) => {
     const hasImages =
       (item.images && item.images.length > 0) ||
       (item.roles && item.roles.length > 0);
 
+    const isHighlighted = highlightedProjIndex === index;
+
     return (
       <motion.div
         key={index}
+        data-project-card
         whileHover={{ y: -4 }}
         transition={{ duration: 0.25 }}
-        className={`group relative rounded-3xl border ${borderColor} ${cardBg} transition-colors duration-300 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden backdrop-blur-sm`}
+        className={`group relative rounded-3xl border ${borderColor} ${cardBg} transition-colors duration-300 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden backdrop-blur-sm ${
+          isHighlighted
+            ? "ring-2 ring-blue-500/60 shadow-lg shadow-blue-500/20"
+            : ""
+        }`}
       >
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
@@ -668,6 +765,9 @@ const Work = () => {
     );
   };
 
+  // ------------------------------------------------------------
+  // SHOW MORE / SHOW LESS BUTTON
+  // ------------------------------------------------------------
   const ShowMoreButton = ({ visible, total, onShowMore, onShowLess }) => {
     const hasMore = visible < total;
     const canCollapse = visible > 2;
@@ -799,18 +899,17 @@ const Work = () => {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {EXPERIENCE_ITEMS.map((item, index) =>
-                  renderExperienceCard(item, index, index >= visibleExperience),
-                )}
+                {(isDesktop
+                  ? EXPERIENCE_ITEMS
+                  : EXPERIENCE_ITEMS.slice(0, visibleExperience)
+                ).map((item, index) => renderExperienceCard(item, index))}
               </div>
 
               <div className="mt-8 lg:hidden">
                 <ShowMoreButton
                   visible={visibleExperience}
                   total={EXPERIENCE_ITEMS.length}
-                  onShowMore={() =>
-                    setVisibleExperience(EXPERIENCE_ITEMS.length)
-                  }
+                  onShowMore={handleShowMoreExperience}
                   onShowLess={() => setVisibleExperience(2)}
                 />
               </div>
@@ -851,7 +950,7 @@ const Work = () => {
                 <ShowMoreButton
                   visible={visibleProjects}
                   total={PROJECT_ITEMS.length}
-                  onShowMore={() => setVisibleProjects(PROJECT_ITEMS.length)}
+                  onShowMore={handleShowMoreProjects}
                   onShowLess={() => setVisibleProjects(2)}
                 />
               </div>
