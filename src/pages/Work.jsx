@@ -93,7 +93,15 @@ const PROJECT_ITEMS = [
     period: "Featured Project",
     location: "Logistics Platform",
     type: "Fullstack Project",
-    tech: ["MERN Stack", "Tailwind CSS", "Sass", "Redux Toolkit", "Socket.io"],
+    tech: [
+      "MERN Stack",
+      "Tailwind CSS",
+      "Sass",
+      "Redux Toolkit",
+      "Socket.io",
+      "Recharts",
+      "React-Leaflet",
+    ],
     videoUrl: `${import.meta.env.BASE_URL}projects/videos/Smartdeliverydemo.mp4`,
     roles: [
       {
@@ -133,7 +141,7 @@ const PROJECT_ITEMS = [
       "Built a real-time delivery platform connecting clients and couriers, with <strong class='text-blue-500 font-semibold'>instant notifications</strong> to nearby couriers within a 15 km radius.",
       "Implemented <strong class='text-blue-500 font-semibold'>live GPS tracking</strong> on an interactive map (React-Leaflet) with continuous position streaming and real-time chat per order.",
       "Designed a modular <strong class='text-blue-500 font-semibold'>Socket.io architecture</strong> (presence, chat, tracking, notifications) with multi-tab handling and MongoDB TTL-based notification retention.",
-      "Developed an <strong class='text-blue-500 font-semibold'>admin analytics dashboard</strong> with real-time KPIs, charts (Recharts), and a live map of connected couriers.",
+      "Engineered an <strong class='text-blue-500 font-semibold'>Admin Real-Time KPI Dashboard</strong> featuring live order volume analytics, revenue metrics, active courier tracking, and instant system state synchronization via Socket.io.",
     ],
   },
   {
@@ -141,17 +149,18 @@ const PROJECT_ITEMS = [
     period: "Featured Project",
     location: "Fintech Application",
     type: "Fullstack Project",
-
     tech: [
       "Angular 17",
+      "Angular Signals",
+      "RxJS",
       "Node.js",
+      "Express",
       "MongoDB",
       "Socket.IO",
-      "Web Push",
+      "Web Push API",
       "AI Chatbot",
       "JWT",
     ],
-
     roles: [
       {
         id: "user",
@@ -200,26 +209,59 @@ const PROJECT_ITEMS = [
         ],
       },
     ],
-
     points: [
-      "Developed an <strong class='text-blue-500 font-semibold'>intelligent AI Chatbot</strong> providing 24/7 real-time customer support, automated query resolution, and contextual assistance for banking operations.",
-      "Built a secure full-stack banking interface using <strong class='text-blue-500 font-semibold'>Angular 17</strong> and <strong class='text-blue-500 font-semibold'>Node.js</strong>, featuring modular Chatbot routing and help-support components.",
-      "Implemented real-time bidirectional communication using <strong class='text-blue-500 font-semibold'>Socket.IO</strong> with private rooms, and OS-level notifications using <strong class='text-blue-500 font-semibold'>Web Push API</strong> (works even when the browser is closed).",
+      "Engineered an interactive full-stack banking platform using <strong class='text-blue-500 font-semibold'>Angular 17</strong> and <strong class='text-blue-500 font-semibold'>Node.js</strong>, leveraging <strong class='text-blue-500 font-semibold'>Angular Signals</strong> for reactive state management and <strong class='text-blue-500 font-semibold'>RxJS</strong> for real-time data streaming.",
+      "Developed an <strong class='text-blue-500 font-semibold'>Admin Real-Time KPI Management Portal</strong> monitoring live transaction feeds, account audits and  liquidity streams.",
+      "Integrated an <strong class='text-blue-500 font-semibold'>intelligent AI Chatbot Assistant</strong> providing 24/7 real-time customer support, automated query resolution, and contextual banking assistance.",
+      "Implemented real-time system alerts via <strong class='text-blue-500 font-semibold'>Socket.IO</strong> and OS-level notifications using <strong class='text-blue-500 font-semibold'>Web Push API</strong> (works even when the browser is closed).",
       "Ensured financial data integrity using <strong class='text-blue-500 font-semibold'>MongoDB Atomic Transactions</strong> (Sessions) for all balance operations, preventing race conditions during deposits, withdrawals, and transfers.",
-      "Secured the platform with <strong class='text-blue-500 font-semibold'>JWT authentication</strong>, bcrypt password hashing, rate limiting, and strict CORS policies.",
-      "Integrated <strong class='text-blue-500 font-semibold'>Angular Signals</strong> and RxJS for reactive state management, seamlessly syncing UI updates with real-time backend events.",
     ],
   },
   {
-    title: "Recruitment Platform",
+    title: "AI-Powered Job Board & Recruitment Platform",
     period: "Featured Project",
     location: "Job Portal",
-    type: "Fullstack",
-    tech: ["MEAN", "TypeScript", "Tailwind CSS"],
+    type: "Fullstack Project",
+    tech: [
+      "MEAN Stack",
+      "Angular",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "LLM API",
+      "AI Resume Parser",
+      "Tailwind CSS",
+    ],
     points: [
-      "Built a modern job board and application tracking platform featuring robust filtering modules.",
-      "Developed dual user interfaces tailored for Enterprise and Candidate workflows, streamlining job postings and tracking.",
-      "Designed clean UI architecture and streamlined candidate management for international recruitment.",
+      "Built an end-to-end recruitment platform using the <strong class='text-blue-500 font-semibold'>MEAN stack</strong> with dual user workflows tailored for Enterprises and Candidates.",
+      "Integrated <strong class='text-blue-500 font-semibold'>LLM models</strong> to deliver intelligent job recommendations matching candidate profiles with open positions.",
+      "Developed an automated <strong class='text-blue-500 font-semibold'>AI Resume Parsing</strong> module to extract candidate qualifications directly into structured application data.",
+      "Streamlined talent acquisition with dynamic application tracking, job posting management, and advanced candidate filtering.",
+    ],
+  },
+  {
+    title: "Enterprise E-commerce SaaS",
+    period: "Featured Project",
+    location: "SaaS Platform",
+    type: "Fullstack SaaS Project",
+    status: "In Progress",
+    tech: [
+      ".NET Core",
+      "ASP.NET Core Web API",
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Entity Framework Core",
+      "PostgreSQL",
+      "JWT",
+      "Docker",
+      "Multi-Tenancy",
+      "Stripe API",
+    ],
+    points: [
+      "Currently building a <strong class='text-blue-500 font-semibold'>multi-tenant SaaS e-commerce platform</strong> on <strong class='text-blue-500 font-semibold'>Clean Architecture</strong> and <strong class='text-blue-500 font-semibold'>SOLID principles</strong>, enabling merchants to launch and manage their own storefronts under a single cloud infrastructure.",
+      "Engineering a scalable <strong class='text-blue-500 font-semibold'>ASP.NET Core Web API</strong> backend with <strong class='text-blue-500 font-semibold'>Entity Framework Core</strong> and <strong class='text-blue-500 font-semibold'>PostgreSQL multi-tenant schemas</strong>, implementing secure <strong class='text-blue-500 font-semibold'>JWT-based role authentication</strong>, tenant isolation, and dynamic cataloging.",
+      "Developing a <strong class='text-blue-500 font-semibold'>Next.js</strong> + React frontend with <strong class='text-blue-500 font-semibold'>SSR/ISR</strong> for SEO-optimized tenant storefronts, subscription billing via <strong class='text-blue-500 font-semibold'>Stripe API</strong>, and end-to-end checkout, inventory, and order-processing pipelines.",
     ],
   },
 ];
@@ -436,7 +478,7 @@ const Work = () => {
       key={index}
       className={`${
         hiddenOnMobile ? "hidden lg:block" : ""
-      } group p-6 md:p-8 rounded-3xl border ${borderColor} ${cardBg} transition-all duration-300 shadow-sm relative overflow-hidden backdrop-blur-sm h-full`}
+      } group p-6 md:p-8 rounded-3xl border ${borderColor} ${cardBg} transition-colors duration-300 shadow-sm relative overflow-hidden backdrop-blur-sm h-full`}
     >
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -450,6 +492,12 @@ const Work = () => {
               <span className="text-xs text-gray-400 font-medium">
                 • {item.location}
               </span>
+              {item.status && (
+                <span className="text-[10px] text-amber-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 inline-flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                  {item.status}
+                </span>
+              )}
             </div>
 
             <h3
@@ -518,7 +566,7 @@ const Work = () => {
         key={index}
         whileHover={{ y: -4 }}
         transition={{ duration: 0.25 }}
-        className={`group relative rounded-3xl border ${borderColor} ${cardBg} transition-all duration-300 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden backdrop-blur-sm`}
+        className={`group relative rounded-3xl border ${borderColor} ${cardBg} transition-colors duration-300 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden backdrop-blur-sm`}
       >
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
 
@@ -535,6 +583,14 @@ const Work = () => {
             <span className="text-[10px] text-cyan-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
               {item.type}
             </span>
+
+            {item.status && (
+              <span className="text-[10px] text-amber-500 font-extrabold tracking-widest uppercase px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 inline-flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                {item.status}
+              </span>
+            )}
+
             <span className="text-xs text-gray-400 font-medium">
               • {item.location}
             </span>
